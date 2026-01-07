@@ -22,6 +22,14 @@ github = ["llama-index-readers-github"]
 google = ["llama-index-readers-google"]
 
 # The "Install Everything" shortcut
+necessary = [
+    "llama-index-readers-file",
+    "llama-index-readers-web",
+    "llama-index-readers-json",
+    "llama-index-readers-database"
+]
+
+# The "Install Everything" shortcut
 all = [
     "llama-index-readers-file",
     "llama-index-readers-web",
@@ -34,3 +42,4 @@ all = [
     "llama-index-readers-notion",
     "llama-index-readers-slack"
 ]
+
