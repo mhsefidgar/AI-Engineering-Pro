@@ -13,7 +13,7 @@
 The fastest way to install **llama-pro** with all connectors included:
 
 ```bash
-pip install "llama-pro[all] @ git+[https://github.com/mhsefidgar/AI-Engineering-Pro.git#subdirectory=llama-index-readerPro](https://github.com/mhsefidgar/AI-Engineering-Pro.git#subdirectory=llama-index-readerPro)"
+pip install "llama-pro[all] @ git+https://github.com/mhsefidgar/AI-Engineering-Pro.git#subdirectory=llama-index-readerPro"
 
 ```
 
@@ -21,7 +21,7 @@ pip install "llama-pro[all] @ git+[https://github.com/mhsefidgar/AI-Engineering-
 The fastest way to install **llama-pro** with necessary connectors included:
 
 ```bash
-pip install "llama-pro[necessary] @ git+[https://github.com/mhsefidgar/AI-Engineering-Pro.git#subdirectory=llama-index-readerPro](https://github.com/mhsefidgar/AI-Engineering-Pro.git#subdirectory=llama-index-readerPro)"
+pip install "llama-pro[necessary] @ git+https://github.com/mhsefidgar/AI-Engineering-Pro.git#subdirectory=llama-index-readerPro"
 ```
 
 ---
