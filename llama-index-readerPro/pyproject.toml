@@ -26,7 +26,8 @@ necessary = [
     "llama-index-readers-file",
     "llama-index-readers-web",
     "llama-index-readers-json",
-    "llama-index-readers-database"
+    "llama-index-readers-database",
+    "docx2txt"
 ]
 
 # The "Install Everything" shortcut
@@ -40,6 +41,8 @@ all = [
     "llama-index-readers-google",
     "llama-index-readers-s3",
     "llama-index-readers-notion",
-    "llama-index-readers-slack"
+    "llama-index-readers-slack",
+    "docx2txt"
 ]
+
 
