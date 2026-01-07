@@ -3,7 +3,7 @@ requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "llama-custom-bundle"
+name = "llama-pro"
 version = "0.1.0"
 description = "Custom LlamaIndex loader shortcuts for Web, DB, Wikipedia, and GitHub"
 dependencies = [
@@ -32,3 +32,4 @@ all = [
     "llama-index-readers-notion",
     "llama-index-readers-slack"
 ]
+
