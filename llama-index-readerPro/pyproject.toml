@@ -1,48 +1,41 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "llama-pro"
 version = "0.1.1"
 description = "Custom LlamaIndex loader shortcuts with dependency conflict resolution"
+readme = "README.md"
+requires-python = ">=3.9"
 dependencies = [
     "llama-index-core",
-    # Constraints to prevent 'fsspec' from breaking datasets/gcsfs
     "fsspec>=2024.1.0,<=2025.3.0",
 ]
 
 [project.optional-dependencies]
-# Individual shortcuts
 web = ["llama-index-readers-web"]
 json = ["llama-index-readers-json"]
 db = ["llama-index-readers-database"]
 wiki = ["llama-index-readers-wikipedia"]
 github = ["llama-index-readers-github"]
 google = ["llama-index-readers-google"]
+file = ["llama-index-readers-file", "docx2txt"]
 
-# The "Install Everything" shortcut
+# Nested shortcuts to avoid repetition
 necessary = [
-    "llama-index-readers-file",
-    "llama-index-readers-web",
-    "llama-index-readers-json",
-    "llama-index-readers-database",
-    "docx2txt"
+    "llama-pro[file]",
+    "llama-pro[web]",
+    "llama-pro[json]",
+    "llama-pro[db]"
 ]
 
-# The "Install Everything" shortcut
 all = [
-    "llama-index-readers-file",
-    "llama-index-readers-web",
-    "llama-index-readers-json",
-    "llama-index-readers-database",
-    "llama-index-readers-wikipedia",
-    "llama-index-readers-github",
-    "llama-index-readers-google",
+    "llama-pro[necessary]",
+    "llama-pro[wiki]",
+    "llama-pro[github]",
+    "llama-pro[google]",
     "llama-index-readers-s3",
     "llama-index-readers-notion",
-    "llama-index-readers-slack",
-    "docx2txt"
+    "llama-index-readers-slack"
 ]
-
-
