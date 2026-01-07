@@ -4,10 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "llama-pro"
-version = "0.1.0"
-description = "Custom LlamaIndex loader shortcuts for Web, DB, Wikipedia, and GitHub"
+version = "0.1.1"
+description = "Custom LlamaIndex loader shortcuts with dependency conflict resolution"
 dependencies = [
     "llama-index-core",
+    # Constraints to prevent 'fsspec' from breaking datasets/gcsfs
+    "fsspec>=2024.1.0,<=2025.3.0",
 ]
 
 [project.optional-dependencies]
@@ -32,4 +34,3 @@ all = [
     "llama-index-readers-notion",
     "llama-index-readers-slack"
 ]
-
