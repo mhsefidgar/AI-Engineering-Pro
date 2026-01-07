@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llama-custom-bundle"
+version = "0.1.0"
+description = "Custom LlamaIndex loader shortcuts for Web, DB, Wikipedia, and GitHub"
+dependencies = [
+    "llama-index-core",
+]
+
+[project.optional-dependencies]
+# Individual shortcuts
+web = ["llama-index-readers-web"]
+json = ["llama-index-readers-json"]
+db = ["llama-index-readers-database"]
+wiki = ["llama-index-readers-wikipedia"]
+github = ["llama-index-readers-github"]
+google = ["llama-index-readers-google"]
+
+# The "Install Everything" shortcut
+all = [
+    "llama-index-readers-file",
+    "llama-index-readers-web",
+    "llama-index-readers-json",
+    "llama-index-readers-database",
+    "llama-index-readers-wikipedia",
+    "llama-index-readers-github",
+    "llama-index-readers-google",
+    "llama-index-readers-s3",
+    "llama-index-readers-notion",
+    "llama-index-readers-slack"
+]
