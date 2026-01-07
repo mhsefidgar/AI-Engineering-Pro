@@ -1,73 +1,125 @@
-# **🦙 llama-pro**
+# 🦙 llama-pro
 
-**llama-pro** is a lightweight meta-package that simplifies LlamaIndex v0.10+ by bundling fragmented readers into easy-to-use groups.
+[![Made with Python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+[![LlamaIndex](https://img.shields.io/badge/Powered%20by-LlamaIndex-blue.svg)](https://www.llamaindex.ai/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
----
-
-## **🚀 Quick Start**
-
-To install the **standard** set of readers (Web, JSON, DB, and Files):
-
-Bash  
-pip install "llama-pro\[necessary\] @ git+https://github.com/mhsefidgar/AI-Engineering-Pro.git\#subdirectory=llama-index-readerPro"
-
-To install **everything** (Wikipedia, GitHub, Google Drive, S3, Slack, etc.):
-
-Bash  
-pip install "llama-pro\[all\] @ git+https://github.com/mhsefidgar/AI-Engineering-Pro.git\#subdirectory=llama-index-readerPro"
+**llama-pro** is a lightweight "meta-package" that solves the LlamaIndex v0.10+ dependency fragmentation. Instead of hunting for individual data readers, you can install everything you need—from Databases to GitHub and Wikipedia—with a single, clean command.
 
 ---
 
-## **📦 Bundles Included**
+## 🚀 Quick Start
 
-| Shortcut | Includes | Best For |
-| :---- | :---- | :---- |
-| **necessary** | Web, JSON, DB, Local Files | Most common RAG applications. |
-| **all** | Everything in necessary \+ Wiki, GitHub, Google, S3, Notion, Slack | Complex, multi-source enterprise agents. |
-| **web** | llama-index-readers-web | Basic web scraping only. |
-| **wiki** | llama-index-readers-wikipedia | Knowledge retrieval from Wikipedia. |
-| **github** | llama-index-readers-github | Analyzing code repositories and issues. |
+The fastest way to install **llama-pro** with all connectors included:
 
----
+```bash
+pip install "llama-pro[all] @ git+[https://github.com/mhsefidgar/AI-Engineering-Pro.git#subdirectory=llama-index-readerPro](https://github.com/mhsefidgar/AI-Engineering-Pro.git#subdirectory=llama-index-readerPro)"
 
-## **🛠 Usage Examples**
+```
 
-### **Using the "Necessary" Readers (SQL & Web)**
 
-Python  
-from llama\_index.readers.database import DatabaseReader  
-from llama\_index.readers.web import SimpleWebPageReader
+The fastest way to install **llama-pro** with necessary connectors included:
 
-\# Load from a Website  
-web\_docs \= SimpleWebPageReader().load\_data(\["https://example.com"\])
-
-\# Load from a Database  
-db\_reader \= DatabaseReader(uri="sqlite:///example.db")  
-db\_docs \= db\_reader.load\_data(query="SELECT \* FROM table")
-
-### **Using the "All" Readers (Wikipedia & GitHub)**
-
-Python  
-from llama\_index.readers.wikipedia import WikipediaReader  
-from llama\_index.readers.github import GithubRepositoryReader
-
-\# Load Wiki pages  
-wiki\_docs \= WikipediaReader().load\_data(pages=\['Artificial Intelligence'\])
-
-\# Load GitHub Repo  
-git\_reader \= GithubRepositoryReader(github\_token="TOK", owner="user", repo="repo")  
-git\_docs \= git\_reader.load\_data(branch="main")
+```bash
+pip install "llama-pro[necessary] @ git+[https://github.com/mhsefidgar/AI-Engineering-Pro.git#subdirectory=llama-index-readerPro](https://github.com/mhsefidgar/AI-Engineering-Pro.git#subdirectory=llama-index-readerPro)"
+```
 
 ---
 
-## **📂 Project Structure**
+## 📦 Bundles Included
 
-Plaintext  
-llama-index-readerPro/  
-├── pyproject.toml    \# Defines 'necessary' and 'all' bundles  
-└── README.md         \# Documentation
+You can choose to install only what you need to keep your environment lean:
 
-## **🤝 Support & Conflict Resolution**
+| Shortcut | Description | Install Command |
+| --- | --- | --- |
+| **`all`** | **The Full Suite** (Web, DB, Wiki, GitHub, etc.) | `pip install "llama-pro[all] @ git+..."` |
+| **`web`** | Web Scrapers & HTML Readers | `pip install "llama-pro[web] @ git+..."` |
+| **`db`** | SQL & Database Connectors | `pip install "llama-pro[db] @ git+..."` |
+| **`wiki`** | Wikipedia Knowledge Ingestion | `pip install "llama-pro[wiki] @ git+..."` |
+| **`github`** | Repo, Issue, and PR Readers | `pip install "llama-pro[github] @ git+..."` |
 
-This package automatically handles the fsspec version conflict between **Hugging Face Datasets** and **LlamaIndex S3 readers** by pinning fsspec to a stable range (\>=2024.1.0, \<=2025.3.0).
+---
 
+## 🛠 Usage Example
+
+After installing, you can use the readers directly without worrying about missing dependencies.
+
+### Ingesting Wikipedia & Web Data
+
+```python
+from llama_index.readers.wikipedia import WikipediaReader
+from llama_index.readers.web import SimpleWebPageReader
+
+# Load a Wikipedia page
+wiki_docs = WikipediaReader().load_data(pages=['Artificial Intelligence'])
+
+# Load a website
+web_docs = SimpleWebPageReader(html_to_text=True).load_data(
+    ["[https://example.com](https://example.com)"]
+)
+
+```
+
+### Ingesting from GitHub
+
+```python
+from llama_index.readers.github import GithubRepositoryReader
+
+reader = GithubRepositoryReader(
+    github_token="your_token_here",
+    owner="run-llama",
+    repo="llama_index"
+)
+documents = reader.load_data(branch="main")
+
+```
+
+---
+
+## 📂 Project Structure
+
+```text
+llama-index-readerPro/
+├── pyproject.toml    # The magic file that bundles the readers
+└── README.md         # You are here!
+
+```
+
+
+
+## 🤝 Contributing
+
+
+Found a reader that should be in the `all` bundle?
+
+
+
+1. Open an issue.
+2. Or submit a PR updating the `pyproject.toml` file.
+
+---
+
+
+
+Created by [mhsefidgar](https://github.com/mhsefidgar)
+
+
+```
+
+
+
+---
+
+### Pro Tip for your Repo:
+I included **badges** at the top. They don't just look "wonderful"; they tell other developers that your project is built with Python and uses the MIT license. 
+
+
+
+
+
+
+
+
+**Would you like me to help you set up a "Tests" section in the README to show how to verify all these readers are working correctly?**
+
+```
