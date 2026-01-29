@@ -66,3 +66,40 @@
 
 3. **Filtering Complexity** – If heavy metadata filters are needed (e.g., boolean \+ geo \+ ranges), Qdrant and Weaviate are strong choices. 
 
+
+### **🧠 Vector Quantization Techniques Explained**
+
+| Technique | Full Name | How It Works | Use Case / Strength | Limitations / Trade-offs |
+| ----- | ----- | ----- | ----- | ----- |
+| **PQ** | Product Quantization | Splits a high-dimensional vector into smaller sub-vectors, then quantizes each sub-vector into a codebook (cluster centers). Distance between vectors is approximated via precomputed distances between codewords. | Reduces memory drastically; fast approximate search. Ideal for billion-scale datasets. | Approximation can reduce recall slightly; requires proper choice of sub-vector splits. |
+| **OPQ** | Optimized Product Quantization | Adds a **rotation matrix** to vectors before PQ. Rotates the vector space to reduce quantization error, then applies PQ. | Higher accuracy than PQ at similar compression. Often used when recall matters. | Slightly more computational overhead; needs training for rotation matrix. |
+| **SQ** | Scalar Quantization | Each vector dimension is quantized individually to discrete levels (e.g., 8-bit or 16-bit). | Simple, very fast; reduces storage per dimension. | Less efficient than PQ/OPQ for very high-dimensional vectors; accuracy loss can be higher. |
+| **Binary / LSH** | Locality Sensitive Hashing / Binary Quantization | Maps vectors to binary codes via hashing or projection. Distance approximated by Hamming distance. | Extremely fast, memory-light; useful for embedded or real-time systems. | Often lower recall; less precise for very similar vectors. |
+| **IVF (Inverted File \+ PQ)** | Inverted File Index | Vectors are clustered into “cells” (coarse quantization). PQ or OPQ is applied **within each cell**. | Reduces number of distance computations drastically; efficient for large datasets. | Needs careful tuning of \#clusters; extra complexity in training. |
+
+---
+
+### **🔹 Visual Intuition**
+
+1. **PQ**: “Cut the vector into pieces, compress each piece.”
+
+2. **OPQ**: “Rotate the space, then do PQ — reduces distortion.”
+
+3. **SQ**: “Each dimension gets its own bucket/step.”
+
+4. **IVF+PQ**: “Group similar vectors, then compress each group.”
+
+   ---
+
+   ### **⚡ When They’re Used in Databases**
+
+| Database | Supported Quantization Techniques | Notes |
+| ----- | ----- | ----- |
+| **FAISS** | PQ, OPQ, SQ, IVF+PQ | Highly flexible; can mix IVF \+ PQ/OPQ. |
+| **Milvus** | PQ, SQ, OPQ, IVF+PQ | Supports hybrid ANN indexes with quantization. |
+| **Weaviate** | PQ | Mostly for HNSW compressed vectors. |
+| **Qdrant** | PQ, Binary, SQ | Optimized for memory vs speed. |
+| **Pinecone** | Provider-managed | Abstracted; they handle compression internally. |
+
+
+
