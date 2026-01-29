@@ -1,15 +1,21 @@
-### **📊 AI Vector Database Comparison — Performance & Features (2025–2026)**
+### **🌐 AI Databases Mega Table — Vector \+ Graph**
 
-| Database / Tool | Retrieval System / Index | Quantization | Hybrid Search | Scale | p95 Latency (typical) | Throughput (QPS) | Strength / Notes |
-| ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
-| **FAISS** | HNSW, IVF, PQ/OPQ | PQ, OPQ, SQ | ❌ | In‑memory | \~10–20 ms (in‑memory) | \~20k‑50k (local) | Fastest raw vector search; no DB features; requires custom wrapper. |
-| **Milvus** | HNSW, IVF, DiskANN | PQ, SQ | ✔️ (via Brute filters) | Very high (distributed) | \~25–80 ms | \~10k‑20k | Enterprise scale, highly configurable, stronger for very large data. |
-| **Qdrant** | HNSW | SQ, PQ & binary | ✔️ | High | \~30–40 ms (vector) | \~8k‑15k | Rust‑based, excellent speed & filtering; efficient quantization support. |
-| **Weaviate** | HNSW | PQ & scalar | ✔️ (BM25 \+ vector) | High | \~50–70 ms | \~3k‑8k | Hybrid search \+ GraphQL schemas; strong metadata \+ semantic. |
-| **Pinecone** | Proprietary ANN (HNSW‑like) | Managed / opaque | ✔️ | Very high (managed) | \~40–80 ms | \~5k‑10k | Fully managed cloud, easy setup but vendor lock‑in. |
-| **Redis Vector Search** | HNSW | Basic | ✔️ | High (in‑memory) | \<1 ms avg. | \~8k | Ultra‑low latency (in‑memory), good for small/real‑time. |
-| **pgvector (PostgreSQL)** | HNSW / IVF (extension) | Limited | ✔️ | Moderate | \~10–45 ms | \~3k–5k | SQL ecosystem integration; slower at scale. |
-| **Chroma** | HNSW (embedded) | Basic | Partial | Moderate | \~50–100 ms | lower | Easy local/dev setup, not for massive scale. |
+| Database / Tool | Retrieval System / Index | Quantization / Compression | Vector Support | Graph Support | Hybrid Search | Scale | p95 Latency (typical) | Throughput (QPS) | Strength / Notes |
+| ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
+| **FAISS** | HNSW, IVF, PQ / OPQ | PQ, OPQ, IVF | ✅ | ❌ | ❌ | In-memory | \~10–20 ms | \~20k–50k | Fastest raw vector search; no DB features; requires custom wrapper |
+| **Milvus** | HNSW, IVF, DiskANN | PQ, SQ, IVF+PQ | ✅ | ❌ | ✔️ (metadata filters) | Very high (distributed) | \~25–80 ms | \~10k–20k | Enterprise-scale; highly configurable; supports massive datasets |
+| **Qdrant** | HNSW | PQ, SQ, Binary | ✅ | ❌ | ✔️ | High | \~30–40 ms | \~8k–15k | Rust-based; memory efficient; supports filtering |
+| **Weaviate** | HNSW | PQ, Scalar | ✅ | ✅ (class-based graph) | ✔️ (vector \+ metadata \+ semantic) | High | \~50–70 ms | \~3k–8k | Hybrid vector \+ graph \+ semantic search; built-in embeddings and GraphQL |
+| **Pinecone** | Proprietary ANN | Managed / opaque | ✅ | ❌ | ✔️ | Very high (managed) | \~40–80 ms | \~5k–10k | Fully managed cloud service; zero-ops but vendor-locked |
+| **Redis Vector Search** | HNSW | Basic (float → lower-bit) | ✅ | Partial (via RedisGraph module) | ✔️ | High (in-memory) | \<1 ms | \~8k | Ultra-low latency; supports simple graph \+ vector queries |
+| **pgvector (PostgreSQL)** | HNSW / IVF (extension) | Limited | ✅ | ❌ | ✔️ (via SQL filters) | Moderate | \~10–45 ms | \~3k–5k | SQL ecosystem integration; simpler hybrid queries; slower at scale |
+| **Chroma** | HNSW (embedded) | Basic / lightweight | ✅ | ❌ | Partial | Moderate | \~50–100 ms | Lower | Easy local/dev setup; not suitable for massive datasets |
+| **Neo4j** | Graph traversal / pattern matching | N/A | ❌ | ✅ | Partial (via plugin or custom ANN) | High | \~50–150 ms | \~1k–5k | Mature graph DB; excellent for relationships, recommendations, fraud detection |
+| **TigerGraph** | GSQL / parallel graph traversal | N/A | Partial (vector extensions) | ✅ | Partial (vector analytics via extensions) | Very high | \~50–100 ms | \~1k–10k | Real-time enterprise recommendations; massively parallel graph processing |
+| **ArangoDB** | AQL / traversal | N/A | Partial (via Foxx or extensions) | ✅ | Partial | Moderate | \~50–120 ms | \~500–3k | Multi-model flexibility: document \+ graph \+ vector |
+| **OrientDB** | SQL \+ graph traversal | N/A | ❌ | ✅ | Partial | Moderate | \~80–150 ms | \~500–2k | Multi-model (graph \+ document); lightweight graph analytics |
+| **JanusGraph** | Gremlin traversal | N/A | Partial (via Lucene / Elasticsearch / FAISS) | ✅ | Partial | Very high | \~50–150 ms | \~1k–5k | Big data graph analytics; integrates with scalable storage backends |
+| **RedisGraph** | Cypher-like traversal | N/A | Partial (via RedisVector) | ✅ | Partial | High (in-memory) | \<1 ms | \~5k–8k | Fast in-memory graph \+ vector hybrid; limited persistence |
 
 ---
 
