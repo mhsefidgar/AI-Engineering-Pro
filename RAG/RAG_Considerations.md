@@ -18,7 +18,7 @@ Semantic search alone is often insufficient for production. You need a multi-sta
 * **Hybrid Search:** Combine **Dense Retrieval** (semantic similarity via embeddings) with **Sparse Retrieval** (keyword matching via BM25). This ensures you find both concepts and specific names/jargon.  
 * **Ranking (The Reranker):** Initial retrieval might return 50 chunks. Passing all 50 to an LLM is expensive and noisy.  
   * Use a **Cross-Encoder reranker** (like BGE-Reranker or Cohere Rerank) to score the top 50 and narrow them down to the 5 most relevant.  
-* **Query Transformation:** If a user asks a vague question, use a small LLM to "rewrite" the query into a better search term before hitting the database.
+* **Query Transformation:** If a user asks a vague question, use a **small LLM** to "rewrite" the query into a better search term before hitting the database. Also, using the **human-in-loop** method can be handy in this context.
 
 ---
 
