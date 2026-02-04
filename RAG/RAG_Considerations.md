@@ -3,8 +3,8 @@
 
 In production, indexing is an asynchronous, event-driven process. You cannot simply "upload a PDF"; you must ensure the data is searchable and secure.
 
-* **Extraction & Cleaning:** Use robust parsers (like Unstructured or LlamaParse) to handle messy PDFs, tables, and headers.  
-* **Chunking Strategy:** \* **Semantic Chunking:** Break text based on meaning (using sentence embeddings) rather than fixed character counts.  
+* **Extraction & Cleaning:** Use robust parsers (like **Unstructured** or **LlamaParse**) to handle messy PDFs, tables, and headers.  
+* **Chunking Strategy:** \* **Semantic Chunking:** Break text based on meaning (using **sentence embeddings**) rather than fixed character counts.  
   * **Contextual Prepending:** Prepend the document title or a summary to every chunk so the retriever knows the "global" context of a single paragraph.  
 * **Metadata Enrichment:** Tag chunks with user\_id, permissions, timestamp, and document\_type. This is critical for **filtering** (e.g., "only search my private files").  
 * **Storage:** Use a production-grade vector database (e.g., Pinecone, Weaviate, or Qdrant) with an **HNSW index** for sub-second search speeds.
