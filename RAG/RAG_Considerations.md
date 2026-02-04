@@ -28,7 +28,7 @@ Production RAG is never "done." You iterate by adjusting "knobs" based on data.
 
 * **The "Long Context" Problem:** LLMs often ignore the middle of a long prompt ("Lost in the Middle"). If your relevance is low, try decreasing chunk size or moving the most relevant chunks to the top of the prompt.  
 * **Prompt Versioning:** Treat your prompts like code. Use tools like LangSmith or Weights & Biases to track which version of a prompt produces better answers.  
-* **Domain-Specific Embeddings:** If your data is highly technical (medical, legal), consider fine-tuning your embedding model or using a "Query-to-Document" adapter.
+* **Domain-Specific Embeddings:** If your data is highly technical **(medical, legal)**, consider fine-tuning your embedding model or using a **"Query-to-Document" adapter**.
 
 ---
 
