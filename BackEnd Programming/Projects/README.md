@@ -1,6 +1,6 @@
 # Backend Projects
 
-Build these in order. Each project should include tests, documentation, configuration via environment variables, and a production-readiness checklist.
+Build these in order. These are implementation projects, not reading assignments. Every project should have runnable source code, tests, configuration, failure drills, and production-readiness evidence.
 
 1. **FastAPI REST API** — CRUD, PostgreSQL, validation, OpenAPI
 2. **Production Auth Service** — password hashing, JWT/session auth, RBAC
@@ -13,13 +13,26 @@ Build these in order. Each project should include tests, documentation, configur
 
 ## Definition of done
 
-- Clear README and API contract
+- Clear README and API/OpenAPI contract
+- Runnable local setup with example environment configuration
 - Type/schema validation
-- Unit and integration tests
+- Unit, integration, API, and failure-path tests where applicable
 - Secure secret handling
-- Structured logging
+- Structured logging and request correlation
 - Health/readiness checks
-- Error and timeout strategy
+- Error, timeout, retry, and idempotency strategy
 - Docker support where appropriate
-- Example environment configuration
-- Architecture diagram
+- Architecture and data-flow diagram
+- Security/threat model
+- Metrics and operational runbook
+- Load/performance test for service-heavy projects
+- AI evaluation and cost evidence for AI projects
+
+## Existing project specifications
+
+- `01_FastAPI_Production_API/`
+- `02_AI_Inference_Service/`
+- `03_FastAPI_FastMCP_Platform/`
+- `04_RAG_Knowledge_API/`
+- `05_Distributed_Job_Service/`
+- `06_End_to_End_AI_Backend/`
