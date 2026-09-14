@@ -212,7 +212,7 @@ This repository is intentionally broader than a collection of API examples. The 
 - **Connect AI prototypes to real data and backend systems.**
 - **Prefer small, understandable experiments before assembling larger systems.**
 
-## Why this repository is useful
+## The reason why this repository is useful
 
 AI engineering sits at the intersection of several disciplines:
 
