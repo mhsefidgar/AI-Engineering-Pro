@@ -1,93 +1,110 @@
 # Backend Programming for AI Engineers
 
-A practical, implementation-first backend engineering path for AI Engineering Pro. Every section should move from concept -> runnable example -> tests -> failure modes -> production hardening.
+This curriculum is **implementation-first**. A topic is not complete because its definition is understood. Every topic must answer three questions:
+
+1. **How do I implement it in Python?**
+2. **How do I implement the equivalent backend in JavaScript/TypeScript?**
+3. **How does this change for a real production system?**
+
+The learning loop is:
+
+```text
+Concept -> Python implementation -> TypeScript implementation
+       -> automated tests -> failure injection -> security
+       -> observability -> Docker/CI -> production design
+```
 
 ## Learning path
 
-1. HTTP and REST APIs
-2. TypeScript and Node.js
-3. Express
-4. HTTP/REST API design
-5. FastAPI
-6. FastMCP / MCP
-7. PostgreSQL and Redis
-8. Authentication and authorization
-9. Testing
-10. Security
-11. Production/observability
-12. Architecture and distributed systems
-13. Advanced backend systems
-14. AI backends: LLM APIs, streaming, RAG, jobs, caching, cost tracking
-15. Capstone projects
+1. HTTP and backend fundamentals
+2. TypeScript for backend engineering
+3. Node.js runtime and HTTP
+4. REST API implementation and API contracts
+5. Express
+6. FastAPI
+7. FastMCP / MCP
+8. PostgreSQL, Redis, and persistence
+9. API design and OpenAPI
+10. Authentication and authorization
+11. Testing
+12. Security
+13. Production engineering and observability
+14. Architecture and distributed systems
+15. Advanced backend systems: queues, cache, WebSockets/SSE
+16. AI backends: LLM gateways, streaming, RAG, tools, cost and reliability
+17. Production projects and capstone
 
-## Hands-on standard
+## Required implementation coverage
 
-For each topic, do all of the following where applicable:
+Every substantial section should include, where applicable:
 
-- implement a minimal working example;
-- run it locally;
-- test happy and unhappy paths;
-- inspect the HTTP/database/runtime behavior;
-- add validation, timeouts, retries, and idempotency where relevant;
-- add authentication/authorization where relevant;
-- add structured logs and metrics;
-- document failure modes and recovery;
-- turn the exercise into a reusable project component.
+- Python implementation with realistic dependencies;
+- JavaScript/TypeScript implementation with runtime validation;
+- runnable commands and environment setup;
+- API examples using curl/HTTP clients;
+- unit, integration, and API/contract tests;
+- PostgreSQL/Redis/queue integration when the topic needs infrastructure;
+- failure injection and recovery behavior;
+- authentication and authorization;
+- security controls and threat modeling;
+- structured logs, metrics, traces, health/readiness;
+- timeouts, retries, idempotency, rate limits, and backpressure;
+- Docker Compose and CI/CD expectations;
+- production architecture and operational runbook;
+- AI-specific evaluation/cost/latency considerations where relevant.
 
-## Practical labs already included
+## Implementation labs added
 
+- `01-Fundamentals/00_Implementation_Guide.md`
 - `01-Fundamentals/01_HTTP_Curl_Lab.md`
 - `02-TypeScript/01_backend_types_lab.ts`
 - `03-NodeJS/01_node_http_server.mjs`
+- `04-HTTP-REST-APIs/02_python_typescript_rest_lab.md`
 - `05-Express/README.md`
-- `07-FastMCP/01_fastmcp_server.py`
-- `08-Databases/01_postgres_schema.sql`
-- `09-API-Design/01_API_Contract_Lab.md`
-- `10-Authentication/01_auth_lab.md`
-- `11-Testing/01_pytest_api_lab.py`
-- `12-Security/01_security_lab.md`
-- `13-Production/01_observability_lab.md`
-- `14-Architecture/01_service_architecture_lab.md`
-- `15-Advanced_Backend/01_queues_cache_websockets_lab.md`
-- `16-AI_Backend/01_llm_gateway.py`
-- `16-AI_Backend/02_rag_backend_lab.md`
+- `06-FastAPI/02_production_fastapi_lab.md`
+- `07-FastMCP/02_fastmcp_production_lab.md`
+- `08-Databases/02_database_implementation_lab.md`
+- `09-API-Design/02_openapi_codegen_lab.md`
+- `10-Authentication/02_auth_implementation_lab.md`
+- `11-Testing/02_testing_strategy_python_typescript.md`
+- `12-Security/02_backend_security_implementation_lab.md`
+- `13-Production/02_production_python_typescript.md`
+- `14-Architecture/02_architecture_python_typescript.md`
+- `15-Advanced_Backend/02_distributed_systems_python_typescript.md`
+- `16-AI_Backend/03_ai_backend_production_implementation.md`
 
-## Notebook curriculum
+## Notebook standard
 
-Notebooks are intended to be labs, not slides. Each should contain executable setup/code, assertions or tests, exercises, failure drills, and a production extension.
+Notebooks are hands-on labs, not topic summaries. Each notebook should contain:
 
-Current labs:
+- installation/setup cells;
+- Python implementation cells;
+- HTTP/API examples;
+- executable assertions/tests;
+- realistic database/cache/queue examples where relevant;
+- deliberate failure cases;
+- exercises that require completing missing production behavior;
+- a production extension section;
+- a final definition-of-done checklist.
 
-1. FastAPI from scratch
-2. FastAPI + FastMCP
-3. AI API backend
-4. PostgreSQL CRUD and transactions
-5. JWT authentication and API testing
-6. Redis caching and rate limiting
-7. Background jobs, retries, and idempotency
-8. End-to-end RAG API
-9. FastMCP tools/resources/prompts
-10. AI streaming, budgets, and cost observability
-11. End-to-end AI backend capstone
+Current labs cover FastAPI, FastMCP, AI APIs, PostgreSQL, JWT, Redis, jobs/retries, RAG, MCP, streaming/cost, and the end-to-end capstone.
 
-## Projects
-
-`Projects/` contains progressively harder implementation specifications, from a production FastAPI API to an end-to-end AI backend combining FastAPI, PostgreSQL, Redis, queues, RAG, LLM providers, and FastMCP.
-
-## Architecture target
+## Target architecture
 
 ```text
-Client
-  -> API gateway / HTTP
-  -> FastAPI or Express
-  -> validation + authentication/authorization
-  -> application/service layer
-  -> PostgreSQL
-  -> Redis/cache
-  -> queue/workers
-  -> AI provider / retrieval system
-  -> optional FastMCP tools
-  -> logs + metrics + traces
+Client / Agent
+   -> API gateway / HTTP / MCP
+   -> FastAPI or Express adapter
+   -> validation + authentication + authorization
+   -> application/service layer
+   -> PostgreSQL
+   -> Redis/cache
+   -> durable queue/workers
+   -> AI provider / vector retrieval
+   -> FastMCP tools/resources where appropriate
+   -> logs + metrics + traces
 ```
 
-Secrets must come from environment variables or a secret manager. Do not commit API keys or production credentials.
+The architecture deliberately teaches both Python and TypeScript so the learner understands backend engineering concepts rather than memorizing one framework.
+
+Secrets must come from environment variables or a secret manager. Never commit API keys or production credentials.
