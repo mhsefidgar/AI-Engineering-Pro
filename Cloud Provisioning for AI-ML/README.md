@@ -1,8 +1,32 @@
 # Cloud Provisioning for AI/ML Engineering
 
-A practical, cloud-neutral guide to provisioning infrastructure for AI/ML workloads on **AWS, GCP, and Azure**. It is written for juniors who need the concepts explained clearly and for senior engineers who need the trade-offs, sizing heuristics, IaC patterns, failure modes, and production decision framework.
+A practical, cloud-neutral guide to provisioning infrastructure for AI/ML workloads on **AWS, GCP, and Azure**. It is written for juniors who need the concepts explained clearly and for senior engineers who need the trade-offs, sizing heuristics, failure modes, production decision framework, and hands-on diagnostics.
 
-The goal is not to memorize instance names. The goal is to learn how to translate an ML workload into **CPU, RAM, GPU/accelerator, VRAM, storage, network, Kubernetes, security, observability, and cost requirements**, then provision those resources reproducibly with Terraform and Helm.
+The goal is not to memorize instance names. The goal is to translate an ML workload into **CPU, RAM, GPU/accelerator, VRAM, storage, network, Kubernetes, security, observability, and cost requirements**, then provision those resources reproducibly with Terraform and Helm.
+
+## The engineering loop
+
+```text
+workload requirement
+        ↓
+baseline measurement
+        ↓
+resource constraint
+        ↓
+measured bottleneck
+        ↓
+one hypothesis
+        ↓
+one change
+        ↓
+benchmark
+        ↓
+performance + cost + reliability
+        ↓
+automation
+```
+
+> **Rule of thumb:** adding capacity is an intervention, not a diagnosis.
 
 ## What an AI/ML engineer should know
 
@@ -12,13 +36,13 @@ The goal is not to memorize instance names. The goal is to learn how to translat
 - Kubernetes: nodes, pods, requests/limits, taints/tolerations, affinity, node pools, GPU scheduling, autoscaling
 - Infrastructure as Code: Terraform state, modules, variables, outputs, providers, plan/apply, remote state, drift
 - Packaging: Helm charts, values, releases, secrets, ConfigMaps, probes, resources
-- Distributed systems: data parallelism, tensor parallelism, pipeline parallelism, collective communication, checkpointing
+- Distributed systems: data/tensor/pipeline parallelism, sharding, collective communication, checkpointing
 - Storage: object storage vs block storage vs shared filesystem; dataset/model/checkpoint lifecycle
 - Networking: bandwidth, latency, egress, load balancing, private endpoints, DNS, service discovery
 - Security: least privilege, workload identity, secrets, encryption, private networking, image supply chain
 - Observability: GPU utilization, VRAM, CPU/RAM, queue depth, latency, throughput, errors, cost per successful task
-- FinOps: capacity planning, utilization, autoscaling, Spot/preemptible capacity, reservations/commitments, idle resource detection
-- Reliability: multi-zone design, failure domains, retries, checkpointing, rollback, disaster recovery
+- FinOps: capacity planning, utilization, autoscaling, interruptible capacity, reservations/commitments, idle-resource detection
+- Reliability: failure domains, multi-zone design, retries, checkpointing, rollback, disaster recovery
 
 ## Recommended learning path
 
@@ -43,90 +67,116 @@ The goal is not to memorize instance names. The goal is to learn how to translat
         ↓
 10. Distributed training + inference
         ↓
-11. Production architecture and failure drills
+11. Hands-on labs + rules of thumb
+        ↓
+12. Practical glossary
 ```
 
-## Senior-engineer rule of thumb
+## Hands-on labs
 
-Start from the workload, not the cloud product.
+Start with [`11-hands-on-labs.md`](./11-hands-on-labs.md).
+
+The labs turn the concepts into measurable exercises:
+
+- workload specification
+- VRAM feasibility
+- inference capacity and capacity-knee testing
+- CPU/data-loader bottleneck detection
+- storage throughput measurement
+- network sizing
+- multi-GPU scaling efficiency
+- Kubernetes GPU scheduling
+- Terraform change safety
+- cost per successful task
+- reliability game days
+- bottleneck reports
+
+Each lab follows:
 
 ```text
-workload
-  → model/data size
-  → memory requirement
-  → compute requirement
-  → GPU/accelerator requirement
-  → parallelism requirement
-  → storage IOPS/throughput
-  → network bandwidth/latency
-  → availability/SLO
-  → security/compliance
-  → cost envelope
-  → cloud resources
+hypothesis → evidence → controlled change → benchmark → decision
 ```
 
-Then validate every assumption with a small benchmark. A sizing formula is a starting hypothesis, not a substitute for profiling.
+## Practical terminology
 
-## Core resource-sizing questions
+Use [`12-glossary.md`](./12-glossary.md) as a field reference. Definitions are intentionally tied to engineering decisions rather than only giving dictionary descriptions.
 
-Before provisioning, answer:
+Important terms include:
 
-1. What is the workload: training, fine-tuning, batch inference, online inference, RAG, embedding, or data processing?
-2. What model architecture and parameter count are involved?
-3. What precision is used: FP32, BF16, FP16, FP8, INT8, INT4?
-4. How much GPU VRAM is required during the real workload, including activations and KV cache?
-5. Does the workload fit on one GPU/node? If not, what parallelism strategy is required?
-6. How many concurrent jobs or requests are expected?
-7. What throughput and latency targets matter?
-8. What dataset size and checkpoint size must be stored?
-9. What storage throughput is required to keep GPUs fed?
-10. How much east-west and north-south network traffic exists?
-11. What failures are acceptable, and how quickly must the system recover?
-12. Which data is sensitive and which services must remain private?
-13. What is the maximum monthly/hourly cost?
-14. Which capacity can be interruptible and which must be reliable?
+- VRAM, KV cache, prefill, decode
+- TTFT, inter-token latency, throughput, concurrency
+- saturation, capacity knee, headroom, scaling efficiency
+- IOPS, data locality, east-west/north-south traffic, egress
+- workload identity, blast radius, drift, immutable artifact
+- Kubernetes requests/limits, probes, taints/tolerations
+- collective communication, sharding, checkpointing
+- agent loop, tool call, capability gating, no-progress detection
+- cost per successful task and idle capacity
 
-## Reference implementation philosophy
+## Provider mapping
 
-Use **Terraform for infrastructure** and **Helm/Kubernetes manifests for workloads**. Keep application images immutable and keep environment-specific configuration outside the image.
+| Abstraction | AWS | GCP | Azure |
+|---|---|---|---|
+| Virtual network | VPC | VPC | VNet |
+| Kubernetes | EKS | GKE | AKS |
+| Object storage | S3 | Cloud Storage | Blob Storage |
+| Container registry | ECR | Artifact Registry | ACR |
+| Identity | IAM / workload identity patterns | IAM / Workload Identity | Entra ID / Managed Identity |
+| Monitoring | CloudWatch | Cloud Monitoring | Azure Monitor |
+| GPU compute | EC2 GPU families | Compute Engine GPU VMs | Azure GPU VM families |
+
+The abstraction should remain stable while the provider implementation changes.
+
+## Evidence-driven sizing
+
+For each production-like benchmark, preserve:
 
 ```text
-Terraform
-  ├── network
-  ├── IAM / workload identity
-  ├── object storage
-  ├── Kubernetes cluster
-  ├── node pools / GPU capacity
-  ├── databases / queues / registries
-  └── observability dependencies
-
-Helm
-  ├── model server
-  ├── training job / Ray / Kueue
-  ├── API
-  ├── worker
-  ├── Prometheus / Grafana integrations
-  └── policies / probes / autoscaling
+model revision
+container image digest
+runtime/driver versions
+hardware
+region/zone
+dataset version
+input/output token distribution
+batch size
+concurrency
+configuration revision
+benchmark timestamp
+raw measurements
 ```
+
+This makes performance claims reproducible instead of turning them into unexplained numbers.
+
+## Senior review checklist
+
+Before approving an AI/ML infrastructure design, ask:
+
+- What requirement determines capacity?
+- What assumption determines GPU count?
+- Is the constraint compute, VRAM, storage, network, CPU, queueing, or scheduling?
+- What evidence identifies the bottleneck?
+- What happens at P95/P99 workload conditions?
+- What happens when a node or zone fails?
+- How quickly can the workload recover?
+- What is the cost at low/base/high utilization?
+- Are expensive resources protected from accidental consumption?
+- Are identities short-lived and least-privileged?
+- Are artifacts immutable and traceable to source/configuration?
+- Can infrastructure and application versions be rolled back independently?
 
 ## Primary references
 
-- AWS EKS AI/ML best practices: https://docs.aws.amazon.com/eks/latest/best-practices/aiml.html
-- AWS EKS with Terraform for AI/ML: https://docs.aws.amazon.com/eks/latest/userguide/ml-cluster-setup-tf.html
-- AWS Terraform provider best practices: https://docs.aws.amazon.com/prescriptive-guidance/latest/terraform-aws-provider-best-practices/introduction.html
-- GKE GPU workloads: https://docs.cloud.google.com/kubernetes-engine/docs/how-to/gpus
-- GKE GPU concepts: https://docs.cloud.google.com/kubernetes-engine/docs/concepts/gpus
-- Google Cloud Terraform best practices: https://docs.cloud.google.com/docs/terraform/best-practices/working-with-resources
-- Azure AKS GPU architecture: https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/containers/aks-gpu/gpu-aks
-- Azure AKS best practices: https://learn.microsoft.com/en-us/azure/aks/best-practices
-- Terraform: https://developer.hashicorp.com/terraform/docs
-- Helm: https://helm.sh/docs/
-- Kubernetes GPU scheduling: https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/
+- [Kubernetes GPU scheduling](https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/)
+- [Terraform documentation](https://developer.hashicorp.com/terraform/docs)
+- [AWS EKS AI/ML best practices](https://docs.aws.amazon.com/eks/latest/best-practices/aiml.html)
+- [Google Cloud GKE GPU documentation](https://docs.cloud.google.com/kubernetes-engine/docs/how-to/gpus)
+- [Azure AKS GPU architecture](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/containers/aks-gpu/gpu-aks)
 
 ## Files in this section
 
-- `00-PLAN.md` — complete learning and implementation plan
-- `01-resource-sizing.md` — practical sizing formulas and senior-engineer heuristics
+- `00-PLAN.md` — learning and implementation plan
+- `01-resource-sizing.md` — sizing formulas and heuristics
 - `02-cloud-architecture.md` — common architecture and cloud primitives
 - `03-aws.md` — AWS/EKS/S3/EC2/IAM/Karpenter patterns
 - `04-gcp.md` — GCP/GKE/Cloud Storage/IAM and GPU patterns
@@ -136,26 +186,5 @@ Helm
 - `08-storage-networking-security.md` — data plane, network, secrets, identity and security
 - `09-observability-and-cost.md` — metrics, tracing, GPU monitoring, SLOs and FinOps
 - `10-distributed-training-and-serving.md` — multi-GPU/multi-node training and inference
-- `11-production-checklists.md` — readiness and incident checklists
-- `12-labs.md` — hands-on exercises from laptop to production-style cluster
-- `references.md` — primary documentation and terminology
-
-## Safety boundary
-
-Do not put cloud credentials, API keys, private datasets, patient records, PHI, proprietary model weights, Terraform state containing secrets, or production secrets in this public repository. Examples should use placeholders and synthetic data.
-
-## Terms & Phrases Explained
-
-| Term | Plain-English meaning |
-|---|---|
-| Provisioning | Creating and configuring cloud infrastructure. |
-| IaC | Infrastructure as Code; describing infrastructure in version-controlled files instead of clicking through consoles. |
-| GPU | Specialized accelerator used heavily for ML computation. |
-| VRAM | GPU memory available to the workload. |
-| Node | A machine in a Kubernetes cluster. |
-| Pod | The Kubernetes unit that runs one or more tightly coupled containers. |
-| Node pool | A group of similar Kubernetes nodes, often separated by workload type. |
-| Terraform | An infrastructure-as-code tool that manages resources through providers. |
-| Helm | A Kubernetes package manager that templates and installs applications. |
-| SLO | Service Level Objective; a measurable reliability or performance target. |
-| FinOps | The practice of managing cloud cost together with engineering and business decisions. |
+- `11-hands-on-labs.md` — hands-on experiments and rules of thumb
+- `12-glossary.md` — practical AI/ML cloud infrastructure terminology
