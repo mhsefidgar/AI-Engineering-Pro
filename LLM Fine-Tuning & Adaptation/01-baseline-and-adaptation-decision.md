@@ -78,3 +78,22 @@ If the target is not measurable, training can optimize a number while making the
 ## Practical bottleneck: confusing knowledge with behavior
 
 Fine-tuning can teach patterns and behaviors, but it is not a substitute for a reliable source-of-truth retrieval system when information changes frequently. For clinical systems, separate the model's learned behavior from evidence retrieval and establish explicit provenance.
+
+## Terms & Phrases Explained
+
+| Term | Plain-English meaning |
+|---|---|
+| Baseline | A reference system used to measure whether a new approach improves the task. |
+| Prompting | Giving instructions and context to a model without changing its trained parameters. |
+| RAG | Retrieval-Augmented Generation; retrieves relevant external information and provides it to the model as context. |
+| SFT | Supervised Fine-Tuning; trains on examples of desired behavior. |
+| Continued pretraining | Further pretraining on domain text to adapt the model's language/domain representation. |
+| DPO | Direct Preference Optimization; learns from preferred and rejected responses. |
+| GRPO | Group Relative Policy Optimization; optimizes outputs using relative reward signals across groups of candidates. |
+| Deterministic post-processing | Rule-based processing applied after model generation, such as schema validation or formatting. |
+| Decoding parameters | Generation settings such as temperature, top-p, and maximum output tokens. |
+| Provenance | Information showing where data or evidence came from and how it was used. |
+| Adaptation | Any method used to make a base model better suited to a task, domain, or workflow. |
+| Overfitting | When a model learns training examples too specifically and performs worse on unseen data. |
+| Reward hacking | Optimizing the measured reward in an unintended way rather than achieving the real objective. |
+| Experiment contract | A structured record of the exact configuration needed to reproduce and compare an experiment. |
