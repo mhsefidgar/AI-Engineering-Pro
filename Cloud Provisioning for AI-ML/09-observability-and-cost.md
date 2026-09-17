@@ -44,10 +44,10 @@ Monitor:
 
 Monitor:
 
-- successful task rate
-- quality metrics
+- successful request or job completion rate
+- task-specific quality metrics
 - safety failures
-- cost per successful task
+- cost per successful inference request or completed job
 - customer-visible latency
 
 ## Cost equation
@@ -67,10 +67,12 @@ monthly_cost = compute
 Then divide by useful output:
 
 ```text
-cost_per_successful_task = monthly_cost / successful_tasks
+unit_cost = monthly_cost / successful_units
 ```
 
-## Idle GPU problem
+Define `successful_units` explicitly for the workload—for example, successful inference requests, 1M output tokens, or completed training jobs.
+
+## GPU underutilization
 
 GPU utilization is not the same as useful model throughput.
 
@@ -96,7 +98,7 @@ Use:
 - resource requests based on measurements
 - lifecycle policies for artifacts/logs
 - budget alerts
-- environment quotas
+- Kubernetes `ResourceQuota` where namespace-level aggregate resource limits are required
 - maximum replica/job limits
 
 ## Senior FinOps review
@@ -125,3 +127,5 @@ Ask:
 | FinOps | Cloud financial management integrated with engineering decisions. |
 | Idle capacity | Allocated resources doing little or no useful work. |
 | SLO | Service Level Objective; measurable target for reliability/performance. |
+| Unit cost | Cost divided by a defined unit of useful output or work. |
+| ResourceQuota | Kubernetes namespace-level aggregate resource limit. |
