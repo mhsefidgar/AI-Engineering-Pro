@@ -123,3 +123,24 @@ data/raw/       → private/restricted; never committed
 ```
 
 The public repository should contain schemas, validation code, synthetic examples, manifests, and documentation—not restricted source data.
+
+## Terms & Phrases Explained
+
+| Term | Plain-English meaning |
+|---|---|
+| Data engineering | Preparing, validating, transforming, versioning, and delivering data for reliable ML use. |
+| Provenance | A record of where data came from and how it was transformed. |
+| Normalization | Converting different source formats into a consistent representation. |
+| Deduplication | Finding and removing repeated or near-repeated examples. |
+| Leakage | Information crossing into training or model selection from data that should remain unseen. |
+| Group-aware split | Splitting related records as a group so the same entity does not appear across train and test sets. |
+| Train set | Examples used to update model parameters during training. |
+| Validation set | Data used during development to compare configurations and monitor generalization. |
+| Test set | Held-out data used for final or controlled evaluation. |
+| Data card | Documentation describing a dataset's origin, intended use, limitations, and processing. |
+| Synthetic data | Artificially generated data designed to resemble useful patterns without using the original sensitive records. |
+| De-identification | Removing or transforming identifying information according to an applicable privacy standard. |
+| PHI/PII | PHI is protected health information; PII is personally identifiable information. Their exact legal definitions depend on the applicable framework. |
+| Data contamination | Unintended inclusion of benchmark, evaluation, or otherwise restricted information in a dataset. |
+| Manifest | A versioned list describing exactly which data files or examples belong to a dataset release. |
+| Retention policy | Rules defining how long data or artifacts are kept and when they are deleted. |
