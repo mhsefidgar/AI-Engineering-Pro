@@ -61,3 +61,27 @@ The implementation should compare a baseline prompting/RAG system against a LoRA
 - NIST AI RMF: https://www.nist.gov/itl/ai-risk-management-framework
 - NIST Generative AI Profile: https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence
 - HHS HIPAA de-identification guidance: https://www.hhs.gov/hipaa/for-professionals/special-topics/de-identification/index.html
+
+## Terms & Phrases Explained
+
+| Term | Plain-English meaning |
+|---|---|
+| LLM | Large Language Model; a model trained to understand and generate language. |
+| Fine-tuning | Further training an existing model so it performs a particular task or follows a desired behavior. |
+| Adaptation | The broader process of making a base model useful for a specific task, domain, or workflow. |
+| RAG | Retrieval-Augmented Generation; retrieves relevant external information and gives it to the model as context. |
+| SFT | Supervised Fine-Tuning; training on examples of desired inputs and outputs. |
+| LoRA | Low-Rank Adaptation; trains small adapter matrices while keeping most base-model weights frozen. |
+| QLoRA | A LoRA approach that also loads the base model using low-bit quantization to reduce training memory. |
+| PEFT | Parameter-Efficient Fine-Tuning; methods that adapt a model without updating all of its parameters. |
+| Open-weight model | A model whose trained weights are available under stated license/use conditions. |
+| Quantization | Representing model values with lower numerical precision to reduce memory and potentially improve inference efficiency. |
+| vLLM | An inference/serving engine designed for efficient LLM serving. |
+| MLOps | Engineering practices for reliably developing, deploying, monitoring, and maintaining ML systems. |
+| CI/CD | Continuous Integration/Continuous Delivery; automated software build, test, and deployment workflows. |
+| Drift | A change in real-world input data, outputs, or task behavior compared with what the system was developed or validated against. |
+| PHI | Protected Health Information under applicable U.S. HIPAA rules. |
+| De-identification | Removing or transforming identifying information so data can be used with reduced privacy risk, subject to the applicable standard and context. |
+| Responsible AI | Practices for safety, fairness, transparency, privacy, security, accountability, and appropriate human oversight. |
+
+> Each lesson below contains its own glossary. Use these explanations as a quick reference, then consult the linked primary documentation for implementation details.
