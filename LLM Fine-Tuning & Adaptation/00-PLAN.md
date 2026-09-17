@@ -240,3 +240,30 @@ A candidate completing this path should be able to explain and demonstrate:
 - How to serve and monitor the resulting model
 - How to handle sensitive clinical data safely
 - How to communicate uncertainty and limitations to domain experts
+
+## Terms & Phrases Explained
+
+| Term | Plain-English meaning |
+|---|---|
+| Baseline | A reference system used to measure whether a new approach actually improves the task. |
+| Problem framing | Clearly defining the task, users, constraints, risks, and measurable success criteria before implementation. |
+| RAG | Retrieval-Augmented Generation; retrieves external information and supplies it to the model as context. |
+| SFT | Supervised Fine-Tuning; training a model on examples of desired behavior. |
+| LoRA | Low-Rank Adaptation; a parameter-efficient method that learns small adapter updates instead of updating all model weights. |
+| QLoRA | LoRA combined with low-bit loading of the base model to reduce training memory. |
+| Continued pretraining | Further language-model pretraining on domain text rather than task-specific instruction/output examples. |
+| DPO | Direct Preference Optimization; trains from preferred vs. rejected responses to optimize behavior. |
+| GRPO | Group Relative Policy Optimization; a policy-optimization approach that compares candidate outputs using a reward signal. |
+| RLHF | Reinforcement Learning from Human Feedback; a family of methods using human preferences to guide model behavior. |
+| Latency | How long the system takes to respond to a request or produce tokens. |
+| Throughput | How much work the system can process over a unit of time, such as tokens or requests per second. |
+| Context length | The amount of input/output token context a model or serving system can handle for a request. |
+| Data provenance | A record of where data came from, how it was transformed, and which version was used. |
+| Data leakage | Information from evaluation/test data unintentionally influencing training or model selection. |
+| Model registry | A controlled place to store and promote versioned model or adapter artifacts. |
+| Drift | A meaningful change in production data or behavior compared with the development/validation distribution. |
+| CI/CD | Automated processes for integrating code, testing it, building artifacts, and delivering deployments. |
+| PHI | Protected Health Information under applicable U.S. HIPAA rules. |
+| Human oversight | Defined points where qualified people review, approve, override, or escalate model behavior. |
+
+> Every phase below also has its own glossary so that unfamiliar terminology is explained immediately after the technical material.
