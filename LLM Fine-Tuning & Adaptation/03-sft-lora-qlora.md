@@ -135,3 +135,27 @@ Train the same task using:
 4. QLoRA
 
 Compare quality, GPU memory, training time, artifact size, inference latency, and failure modes.
+
+## Terms & Phrases Explained
+
+| Term | Plain-English meaning |
+|---|---|
+| SFT | Supervised Fine-Tuning; training a model on examples of desired behavior. |
+| LoRA | Low-Rank Adaptation; learns small trainable update matrices while most base-model weights remain frozen. |
+| QLoRA | LoRA plus low-bit loading of the base model to reduce training memory. |
+| Adapter | A small set of learned parameters that modifies a frozen base model's behavior. |
+| Base model | The original pretrained model before task-specific adaptation. |
+| Trainable parameters | Model values that are updated during training. |
+| Low-rank | A mathematical structure that represents an update using fewer independent values than a full matrix. |
+| Quantization | Representing numerical model values with fewer bits, such as 4-bit or 8-bit formats. |
+| Checkpoint | A saved snapshot of training state or model/adaptor weights. |
+| Activation | Intermediate values produced while the model processes inputs; they consume training memory. |
+| Gradient | A signal indicating how model parameters should change to reduce the training loss. |
+| Optimizer state | Extra values maintained by an optimizer to determine parameter updates. |
+| Gradient accumulation | Combining gradients across multiple micro-batches before performing an optimizer update. |
+| Gradient checkpointing | Saving fewer intermediate activations and recomputing them later to reduce memory usage. |
+| Sequence length | The number of tokens processed in one training example or context. |
+| Chat template | The formatting convention used to turn messages such as system/user/assistant turns into model input tokens. |
+| Catastrophic forgetting | Loss of previously useful capabilities after narrow fine-tuning. |
+| Generalization | Performance on unseen examples rather than only the training examples. |
+| Effective batch size | The amount of data represented by an optimizer update after accounting for device batches and gradient accumulation. |
