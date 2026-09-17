@@ -139,3 +139,29 @@ Decision rationale:
 ```
 
 The purpose of evaluation is not to produce one leaderboard number. It is to establish evidence that the adapted system satisfies its intended operating requirements.
+
+## Terms & Phrases Explained
+
+| Term | Plain-English meaning |
+|---|---|
+| Evaluation | Measuring how well a model or system performs against predefined criteria. |
+| Benchmark | A repeatable dataset and protocol used to compare systems. |
+| Golden set | A carefully reviewed evaluation set treated as a stable reference. |
+| Precision | Of the items predicted positive, the fraction that are actually positive. |
+| Recall | Of the relevant positive items, the fraction the system successfully finds. |
+| F1 | The harmonic mean of precision and recall. |
+| AUROC | Area under the receiver operating characteristic curve; summarizes ranking performance across thresholds. |
+| AUPRC | Area under the precision-recall curve; often informative for imbalanced classification tasks. |
+| Calibration | How closely predicted confidence corresponds to actual correctness or event frequency. |
+| Factuality | Whether generated content is supported by the input or reliable evidence. |
+| Hallucination | Generated information that is unsupported, fabricated, or inconsistent with available evidence. |
+| Groundedness | How well an answer is supported by retrieved or provided evidence. |
+| Recall@k | Whether a relevant item appears among the top k retrieved results. |
+| MRR | Mean Reciprocal Rank; rewards relevant results appearing near the top of a ranked list. |
+| NDCG | Normalized Discounted Cumulative Gain; evaluates ranking quality while weighting higher-ranked results more heavily. |
+| Error taxonomy | A defined set of categories used to classify failures consistently. |
+| Regression test | A test that checks whether a change unintentionally breaks previously working behavior. |
+| Distribution shift | A meaningful difference between development/evaluation data and the data encountered later. |
+| Adversarial case | An input intentionally designed to expose weaknesses or unsafe behavior. |
+| Inter-rater agreement | A measure of how consistently multiple human reviewers judge the same examples. |
+| Severity-weighted error | Error analysis that considers the impact of an error, not just how often it occurs. |
