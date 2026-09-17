@@ -2,21 +2,23 @@
 
 A practical, cloud-neutral guide to provisioning infrastructure for AI/ML workloads on **AWS, GCP, and Azure**. It is written for juniors who need the concepts explained clearly and for senior engineers who need the trade-offs, sizing heuristics, IaC patterns, failure modes, and production decision framework.
 
+The terminology in this section follows the canonical terms used by Kubernetes and the major cloud providers. Provider-specific terms are used where the mechanism is provider-specific; informal umbrella terms are avoided when a precise industry term exists.
+
 The goal is not to memorize instance names. The goal is to learn how to translate an ML workload into **CPU, RAM, GPU/accelerator, VRAM, storage, network, Kubernetes, security, observability, and cost requirements**, then provision those resources reproducibly with Terraform and Helm.
 
 ## What an AI/ML engineer should know
 
-- Cloud primitives: regions, zones, VPC/VNet, subnets, routing, IAM, object storage, block storage, load balancers
-- Compute: CPU, RAM, GPU, accelerator topology, GPU memory, NUMA, local NVMe, ephemeral disks
+- Cloud primitives: regions, availability zones, VPC/VNet, subnets, routing, IAM, object storage, block storage, load balancers
+- Compute: CPU, RAM, GPU, accelerator topology, GPU memory, NUMA, local NVMe, ephemeral storage
 - AI workloads: training, fine-tuning, batch inference, online inference, embeddings, RAG, vector search
-- Kubernetes: nodes, pods, requests/limits, taints/tolerations, affinity, node pools, GPU scheduling, autoscaling
+- Kubernetes: nodes, pods, resource requests/limits, `ResourceQuota`, `LimitRange`, taints/tolerations, affinity, node pools, GPU scheduling, autoscaling
 - Infrastructure as Code: Terraform state, modules, variables, outputs, providers, plan/apply, remote state, drift
-- Packaging: Helm charts, values, releases, secrets, ConfigMaps, probes, resources
+- Packaging: Helm charts, values, releases, Secrets, ConfigMaps, probes, resources
 - Distributed systems: data parallelism, tensor parallelism, pipeline parallelism, collective communication, checkpointing
 - Storage: object storage vs block storage vs shared filesystem; dataset/model/checkpoint lifecycle
 - Networking: bandwidth, latency, egress, load balancing, private endpoints, DNS, service discovery
-- Security: least privilege, workload identity, secrets, encryption, private networking, image supply chain
-- Observability: GPU utilization, VRAM, CPU/RAM, queue depth, latency, throughput, errors, cost per successful task
+- Security: least privilege, provider-specific workload identity, secrets management, encryption, private networking, image supply chain
+- Observability: GPU utilization, GPU memory, CPU/RAM, queue depth, latency, throughput, errors, unit cost
 - FinOps: capacity planning, utilization, autoscaling, Spot/preemptible capacity, reservations/commitments, idle resource detection
 - Reliability: multi-zone design, failure domains, retries, checkpointing, rollback, disaster recovery
 
@@ -74,7 +76,7 @@ Before provisioning, answer:
 1. What is the workload: training, fine-tuning, batch inference, online inference, RAG, embedding, or data processing?
 2. What model architecture and parameter count are involved?
 3. What precision is used: FP32, BF16, FP16, FP8, INT8, INT4?
-4. How much GPU VRAM is required during the real workload, including activations and KV cache?
+4. How much GPU memory is required during the real workload, including activations and KV cache?
 5. Does the workload fit on one GPU/node? If not, what parallelism strategy is required?
 6. How many concurrent jobs or requests are expected?
 7. What throughput and latency targets matter?
@@ -84,7 +86,7 @@ Before provisioning, answer:
 11. What failures are acceptable, and how quickly must the system recover?
 12. Which data is sensitive and which services must remain private?
 13. What is the maximum monthly/hourly cost?
-14. Which capacity can be interruptible and which must be reliable?
+14. Which capacity can be interruptible and which requires the workload's availability target?
 
 ## Reference implementation philosophy
 
@@ -93,7 +95,7 @@ Use **Terraform for infrastructure** and **Helm/Kubernetes manifests for workloa
 ```text
 Terraform
   ├── network
-  ├── IAM / workload identity
+  ├── IAM / provider-specific workload identity
   ├── object storage
   ├── Kubernetes cluster
   ├── node pools / GPU capacity
@@ -101,8 +103,8 @@ Terraform
   └── observability dependencies
 
 Helm
-  ├── model server
-  ├── training job / Ray / Kueue
+  ├── inference server
+  ├── training Job / Ray / Kueue
   ├── API
   ├── worker
   ├── Prometheus / Grafana integrations
@@ -122,6 +124,8 @@ Helm
 - Terraform: https://developer.hashicorp.com/terraform/docs
 - Helm: https://helm.sh/docs/
 - Kubernetes GPU scheduling: https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/
+- Kubernetes ResourceQuota: https://kubernetes.io/docs/concepts/policy/resource-quotas/
+- Kubernetes LimitRange: https://kubernetes.io/docs/concepts/policy/limit-range/
 
 ## Files in this section
 
@@ -151,10 +155,12 @@ Do not put cloud credentials, API keys, private datasets, patient records, PHI, 
 | Provisioning | Creating and configuring cloud infrastructure. |
 | IaC | Infrastructure as Code; describing infrastructure in version-controlled files instead of clicking through consoles. |
 | GPU | Specialized accelerator used heavily for ML computation. |
-| VRAM | GPU memory available to the workload. |
+| GPU memory | Memory physically available to the GPU workload; commonly called VRAM for discrete GPUs. |
 | Node | A machine in a Kubernetes cluster. |
 | Pod | The Kubernetes unit that runs one or more tightly coupled containers. |
 | Node pool | A group of similar Kubernetes nodes, often separated by workload type. |
+| ResourceQuota | Kubernetes namespace-level policy for aggregate resource and/or object limits. |
+| LimitRange | Kubernetes namespace policy for default, minimum, and maximum resource constraints. |
 | Terraform | An infrastructure-as-code tool that manages resources through providers. |
 | Helm | A Kubernetes package manager that templates and installs applications. |
 | SLO | Service Level Objective; a measurable reliability or performance target. |

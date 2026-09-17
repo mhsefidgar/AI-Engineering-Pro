@@ -127,11 +127,11 @@ Check:
 - Retries
 - Duplicate requests
 - Concurrency strategy
-- GPU under-utilization
+- GPU underutilization
 - Model size
 - Logging/storage volume
 
-Cost optimization should be measured as cost per successful task, not only cost per token.
+Cost optimization should be measured as cost per successful inference request or completed job, not only cost per token.
 
 ## 12. Evaluation score improves but users complain
 
@@ -144,7 +144,7 @@ Possible explanations:
 - Output became harder to use
 - Model became overconfident
 
-Add production-like slices and domain-expert review.
+Add production-representative evaluation slices and domain-expert review.
 
 ## Production incident checklist
 
@@ -187,4 +187,4 @@ Add production-like slices and domain-expert review.
 | Serving mismatch | A difference between training/evaluation and production inference configuration that changes model behavior. |
 | Root cause | The underlying reason a failure occurred, rather than only its visible symptom. |
 | Golden case | A fixed, trusted test example used to quickly verify expected model behavior. |
-| Cost per successful task | Operational cost measured against successfully completed tasks rather than raw tokens alone. |
+| Unit cost | Operational cost divided by a defined unit of useful output or work. |

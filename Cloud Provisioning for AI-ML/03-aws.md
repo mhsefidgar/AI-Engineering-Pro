@@ -1,13 +1,13 @@
 # AWS Provisioning for AI/ML
 
-AWS building blocks commonly used for AI/ML include EKS, EC2 GPU instances, S3, ECR, IAM, CloudWatch, VPC, load balancing, and autoscaling/capacity tooling.
+AWS building blocks commonly used for AI/ML include Amazon EKS, Amazon EC2 GPU instances, Amazon S3, Amazon ECR, AWS IAM, Amazon CloudWatch, Amazon VPC, load balancing, and autoscaling/capacity tooling.
 
 ## Reference architecture
 
 ```text
 VPC
 ├── private subnets
-│   ├── EKS control/data plane integration
+│   ├── EKS control plane / data plane integration
 │   ├── CPU node group
 │   └── GPU node group
 ├── public edge
@@ -39,7 +39,7 @@ aws_eks_node_group
 
 For GPU capacity, evaluate managed node groups, Karpenter, or other scheduling/capacity approaches based on workload requirements.
 
-## GPU node-pool principles
+## GPU node-group principles
 
 Keep GPU nodes isolated from general CPU workloads when appropriate.
 
@@ -69,11 +69,11 @@ Do not use mutable `latest` paths as the only reference to production artifacts.
 
 ## AWS-specific senior concerns
 
-- GPU quota and regional capacity
+- Service Quotas and regional GPU capacity
 - EBS vs EFS vs S3 semantics
 - S3 request/data-transfer patterns
 - cross-AZ network charges
-- Spot interruption behavior
+- EC2 Spot interruption behavior
 - IAM policy scope
 - private ECR/S3 access
 - CloudWatch cardinality and cost
@@ -81,11 +81,11 @@ Do not use mutable `latest` paths as the only reference to production artifacts.
 - AMI/driver compatibility
 - CUDA/container compatibility
 
-## Example decision
+## Capacity decision
 
-If a training job can restart safely from checkpoints, interruptible GPU capacity may be appropriate. If interruption causes unacceptable recovery time or capacity is scarce, use more stable capacity.
+If a training job can restart safely from checkpoints, EC2 Spot capacity may be appropriate. If interruption causes unacceptable recovery time or the workload requires guaranteed capacity, use On-Demand capacity or another capacity model appropriate to the availability requirement.
 
-The decision must be based on checkpoint interval, restart time, interruption probability, availability, and cost—not on the word “Spot” alone.
+The decision must be based on checkpoint interval, restart time, interruption probability, availability requirements, and cost—not on the word “Spot” alone.
 
 ## Primary AWS references
 
@@ -98,12 +98,13 @@ The decision must be based on checkpoint interval, restart time, interruption pr
 | Term | Meaning |
 |---|---|
 | EKS | Amazon Elastic Kubernetes Service. |
-| EC2 | Amazon's virtual machine compute service. |
-| S3 | AWS object storage service. |
-| ECR | AWS container image registry. |
-| IAM | AWS identity and access management system. |
-| Karpenter | Kubernetes node provisioning/autoscaling technology for AWS environments. |
-| Spot | Interruptible EC2 capacity offered at a variable discounted price. |
-| EBS | Elastic Block Store; persistent block storage for AWS compute. |
-| EFS | Elastic File System; managed shared filesystem. |
+| EC2 | Amazon Elastic Compute Cloud. |
+| S3 | Amazon Simple Storage Service; AWS object storage. |
+| ECR | Amazon Elastic Container Registry. |
+| IAM | AWS Identity and Access Management. |
+| Karpenter | Kubernetes node provisioning and autoscaling technology for AWS environments. |
+| EC2 Spot Instances | Spare EC2 capacity offered at a discount and subject to interruption. |
+| EBS | Amazon Elastic Block Store; persistent block storage for AWS compute. |
+| EFS | Amazon Elastic File System; managed shared file storage. |
 | AMI | Amazon Machine Image used to create EC2 instances. |
+| Service Quotas | AWS limits on the amount of a service resource that an account can use. |

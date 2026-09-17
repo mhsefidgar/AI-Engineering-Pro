@@ -9,7 +9,7 @@ Experiment
    ↓
 Evaluation
    ↓
-Model/adaptor registry
+Model/adapter registry
    ↓
 Staging
    ↓
@@ -36,7 +36,7 @@ Record:
 - Runtime/package versions
 - Metrics
 - Evaluation artifacts
-- Checkpoint/adaptor location
+- Checkpoint/adapter location
 
 MLflow or Weights & Biases can provide the experiment-tracking layer; the repository should keep the experiment schema portable enough to migrate tools.
 
@@ -109,7 +109,7 @@ Controlled deployment
 
 Every deployment must identify:
 
-- Previous model/adaptor version
+- Previous model/adapter version
 - Container image
 - Configuration
 - Dataset/evaluation revision

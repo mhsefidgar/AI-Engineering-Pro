@@ -9,7 +9,7 @@ Client
   ↓
 API / gateway
   ↓
-Auth + rate limits
+Authentication + rate limiting
   ↓
 vLLM / inference server
   ↓
@@ -22,7 +22,7 @@ GPU
 
 Measure at realistic concurrency:
 
-- Time to first token
+- Time to first token (TTFT)
 - Inter-token latency
 - End-to-end latency
 - Tokens/second

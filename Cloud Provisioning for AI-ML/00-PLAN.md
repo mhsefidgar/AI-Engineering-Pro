@@ -6,6 +6,22 @@ Build the ability to design, provision, operate, and troubleshoot AI/ML infrastr
 
 The engineer should be able to start with a model and workload and finish with reproducible infrastructure, a cost estimate, an operational plan, and a documented set of trade-offs.
 
+## Terminology convention
+
+Use the canonical industry term first. Use provider-specific names when the mechanism is provider-specific. Avoid ambiguous umbrella terms when a precise resource or control exists.
+
+Examples:
+
+- Kubernetes aggregate namespace limits → `ResourceQuota`
+- Kubernetes namespace defaults/minimums/maximums → `LimitRange`
+- AWS account/service limits → AWS Service Quotas
+- GCP account/project limits → Google Cloud quotas
+- Azure subscription/region VM limits → Azure VM SKU quotas
+- Kubernetes compute constraints → resource requests and limits
+- GPU capacity groups → GPU node pools/node groups, depending on platform
+- Model runtime → inference server/model serving system
+- Successful work → successful inference request, completed training job, or another explicitly defined unit of work
+
 ## Phase 0 — Workload framing
 
 Learn to classify workloads:
@@ -50,7 +66,7 @@ Understand the equivalent concepts across providers:
 | Network | VPC | VPC | VNet |
 | Kubernetes | EKS | GKE | AKS |
 | Object storage | S3 | Cloud Storage | Blob Storage |
-| Identity | IAM | IAM / Workload Identity | Entra ID / Managed Identity |
+| Identity | IAM | IAM / Workload Identity Federation | Entra ID / Managed Identity |
 | Container registry | ECR | Artifact Registry | Azure Container Registry |
 | Monitoring | CloudWatch | Cloud Monitoring | Azure Monitor |
 | Secrets | Secrets Manager | Secret Manager | Key Vault |
@@ -92,6 +108,8 @@ Learn:
 - Ingress/Gateway
 - ConfigMaps and Secrets
 - resource requests/limits
+- ResourceQuota
+- LimitRange
 - GPU resource requests
 - node selectors
 - taints/tolerations
@@ -116,15 +134,16 @@ Study:
 - S3
 - ECR
 - IAM
-- IRSA / pod identity patterns
+- EKS Pod Identity / other current workload-identity patterns
 - Karpenter or managed node groups
 - CloudWatch
 - EBS / EFS where appropriate
 - load balancing
-- private endpoints
+- VPC endpoints
 - Spot capacity
+- Service Quotas
 
-Output: Terraform-managed EKS environment with CPU and GPU node pools.
+Output: Terraform-managed EKS environment with CPU and GPU node groups.
 
 ## Phase 6 — GCP
 
@@ -135,12 +154,13 @@ Study:
 - Compute Engine GPU VMs
 - Cloud Storage
 - Artifact Registry
-- IAM and Workload Identity
+- IAM and Workload Identity Federation for GKE
 - autoscaling
 - Cloud Monitoring
-- persistent disks / Filestore where appropriate
+- Persistent Disk / Filestore where appropriate
 - private cluster networking
 - Spot VMs
+- Google Cloud quotas
 
 Output: equivalent GKE deployment using the same application contract.
 
@@ -153,12 +173,13 @@ Study:
 - Azure GPU VM families
 - Blob Storage
 - Azure Container Registry
-- Entra ID / Managed Identity
+- Entra ID / Managed Identity / Azure Workload Identity where applicable
 - autoscaling
 - Azure Monitor
-- managed disks / Azure Files where appropriate
+- Managed Disks / Azure Files where appropriate
 - private endpoints
 - Spot VMs
+- VM SKU quotas
 
 Output: equivalent AKS deployment using the same application contract.
 
@@ -222,8 +243,8 @@ Instrument at four layers:
 
 1. Infrastructure — CPU, RAM, disk, network, GPU
 2. Kubernetes — pod health, scheduling, restarts, queue depth
-3. Model server — tokens/sec, TTFT, latency percentiles, batch size, KV cache
-4. Business/task — success rate, quality, cost per successful task
+3. Inference server — tokens/sec, TTFT, latency percentiles, batch size, KV cache
+4. Business/workload — success rate, quality, unit cost
 
 Always preserve model version, container image, configuration version, and infrastructure version with measurements.
 
@@ -265,12 +286,12 @@ Compare:
 
 - single VM
 - Kubernetes deployment
-- vLLM-style model server
+- vLLM-style inference server
 - multi-GPU serving
 - autoscaled replicas
 - asynchronous batch inference
 
-Measure TTFT, inter-token latency, end-to-end latency, throughput, concurrency, GPU utilization, VRAM, and cost.
+Measure TTFT, inter-token latency, end-to-end latency, throughput, concurrency, GPU utilization, GPU memory, and unit cost.
 
 ## Phase 15 — Reliability and operations
 
@@ -304,7 +325,7 @@ An AI/ML engineer completing this section should be able to:
 - secure identities and secrets
 - instrument the system
 - benchmark it
-- calculate cost
+- calculate unit cost
 - identify bottlenecks
 - scale it
 - recover from common failures
@@ -320,7 +341,7 @@ Before approving infrastructure, ask:
 - What happens when one node disappears?
 - What is the largest object transferred during startup?
 - Are GPUs starved by storage or network throughput?
-- Is VRAM the bottleneck or compute?
+- Is GPU memory the bottleneck or compute?
 - What percentage of capacity is idle?
 - Can this workload tolerate interruption?
 - How is the model version tied to the deployment?

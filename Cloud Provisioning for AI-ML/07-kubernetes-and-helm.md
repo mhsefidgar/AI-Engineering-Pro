@@ -30,6 +30,23 @@ Requests influence scheduling. Limits constrain resource consumption depending o
 
 Do not blindly copy CPU/RAM requests. Profile the workload.
 
+For namespace-level aggregate controls, use the canonical Kubernetes `ResourceQuota` resource. Use `LimitRange` when you need namespace-level defaults or per-container/per-pod constraints.
+
+Example:
+
+```yaml
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: gpu-quota
+  namespace: ml-training
+spec:
+  hard:
+    requests.cpu: "32"
+    requests.memory: "128Gi"
+    requests.nvidia.com/gpu: "4"
+```
+
 ## Helm chart structure
 
 ```text
@@ -75,7 +92,7 @@ Scale using signals that correlate with user demand and service capacity.
 
 Training should often use Jobs or a specialized batch/distributed scheduler rather than a long-running Deployment.
 
-For queues of expensive jobs, learn priority, quotas, and fair scheduling mechanisms.
+For queues of expensive jobs, learn priority, `ResourceQuota`, and fair-scheduling mechanisms.
 
 ## Helm upgrade safety
 
@@ -88,6 +105,8 @@ render → validate → deploy to staging → smoke test → load test → rollo
 ## Primary references
 
 - Kubernetes GPU scheduling: https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/
+- Kubernetes ResourceQuota: https://kubernetes.io/docs/concepts/policy/resource-quotas/
+- Kubernetes LimitRange: https://kubernetes.io/docs/concepts/policy/limit-range/
 - Helm: https://helm.sh/docs/
 
 ## Terms & Phrases Explained
@@ -98,6 +117,8 @@ render → validate → deploy to staging → smoke test → load test → rollo
 | Pod | Smallest deployable Kubernetes unit. |
 | Deployment | Kubernetes controller for maintaining a set of replicated pods. |
 | Job | Kubernetes workload intended to run to completion. |
+| ResourceQuota | Kubernetes namespace-level policy that limits aggregate resource consumption and/or object counts. |
+| LimitRange | Kubernetes policy that sets default or minimum/maximum resource constraints within a namespace. |
 | Taint | Node property that repels workloads unless they tolerate it. |
 | Toleration | Pod rule allowing scheduling onto a tainted node. |
 | Affinity | Scheduling preference/constraint based on node or pod attributes. |

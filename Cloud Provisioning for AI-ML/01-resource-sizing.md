@@ -9,9 +9,11 @@ Record:
 ```text
 model = architecture + parameter count + context length
 precision = training/inference precision
-workload = training | fine-tuning | batch | online
-batch = micro batch + accumulation + concurrency
-SLO = latency + throughput + availability
+workload = training | fine-tuning | batch inference | online inference
+micro_batch_size = per-device batch size
+gradient_accumulation_steps = optimizer-update accumulation
+concurrency = simultaneous requests/work units
+SLOs = latency + throughput + availability targets
 ```
 
 ## 2. Model-weight memory: first estimate
@@ -57,7 +59,7 @@ required_GPU_count ≥ total_peak_memory / usable_GPU_memory
 
 Then validate compute and communication requirements.
 
-If a model fits on one GPU but is too slow, multiple GPUs may improve throughput. If it does not fit, determine whether tensor parallelism, FSDP/sharding, quantization, offloading, or a smaller model is appropriate.
+If a model fits on one GPU but is too slow, multiple GPUs may improve throughput. If it exceeds the memory capacity of one GPU, determine whether tensor parallelism, FSDP/sharding, quantization, offloading, or a smaller model is appropriate.
 
 ## 5. Leave headroom
 
@@ -113,7 +115,7 @@ Measure:
 - requests/sec
 - concurrency
 - GPU utilization
-- VRAM utilization
+- GPU memory utilization
 - queue depth
 
 Do not estimate production capacity from a single interactive test.
@@ -171,7 +173,7 @@ A GPU that spends time waiting for CPU/data pipelines is expensive idle capacity
 For distributed training:
 
 ```text
-scaling_efficiency = ideal_speedup / measured_speedup
+scaling_efficiency = measured_speedup / ideal_speedup
 ```
 
 Equivalent practical form:
@@ -180,7 +182,7 @@ Equivalent practical form:
 parallel_efficiency ≈ measured_speedup / GPU_count
 ```
 
-Example: if 8 GPUs produce only 5× the throughput of one GPU, adding more GPUs may have diminishing returns unless the bottleneck changes.
+Example: if 8 GPUs produce only 5× the throughput of one GPU, measured scaling efficiency is 5/8 = 62.5%. Adding more GPUs may have diminishing returns unless the bottleneck changes.
 
 ## 12. Cost model
 
@@ -202,7 +204,7 @@ compute
 + idle capacity
 ```
 
-For production, calculate cost per successful task/request, not only cost per VM-hour.
+For production, calculate cost per successful inference request or completed training job, not only cost per VM-hour.
 
 ## 13. Scenario planning
 
@@ -243,7 +245,7 @@ Do not solve an unmeasured bottleneck by automatically adding GPUs.
 | P95/P99 | Percentile latency values describing the slower tail of requests. |
 | Headroom | Deliberate unused capacity kept for variability and safety. |
 | Bottleneck | Resource or operation limiting overall performance. |
-| Scaling efficiency | How much additional useful performance is obtained from added resources. |
+| Scaling efficiency | Measured speedup divided by ideal speedup for the added resources. |
 | IOPS | Input/output operations per second. |
 | Bandwidth | Amount of data transferred per unit time. |
 | Capacity planning | Estimating resources required for expected workloads. |

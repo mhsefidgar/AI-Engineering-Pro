@@ -65,7 +65,7 @@ model weights
 + optimizer states
 + activations
 + temporary tensors
-+ KV/cache-related buffers
++ KV-cache-related buffers
 + framework overhead
 ```
 
@@ -148,7 +148,7 @@ Compare quality, GPU memory, training time, artifact size, inference latency, an
 | Trainable parameters | Model values that are updated during training. |
 | Low-rank | A mathematical structure that represents an update using fewer independent values than a full matrix. |
 | Quantization | Representing numerical model values with fewer bits, such as 4-bit or 8-bit formats. |
-| Checkpoint | A saved snapshot of training state or model/adaptor weights. |
+| Checkpoint | A saved snapshot of training state or model/adapter weights. |
 | Activation | Intermediate values produced while the model processes inputs; they consume training memory. |
 | Gradient | A signal indicating how model parameters should change to reduce the training loss. |
 | Optimizer state | Extra values maintained by an optimizer to determine parameter updates. |

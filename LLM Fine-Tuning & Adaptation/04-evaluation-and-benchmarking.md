@@ -12,10 +12,10 @@ A fine-tuning project is incomplete without a fixed evaluation protocol.
    Task quality     Generative       Safety/robustness
        │              quality              │
        ▼                ▼                  ▼
- metrics/tests     human review       adversarial slices
+ metrics/tests     human evaluation    adversarial slices
 ```
 
-## Build a golden set
+## Build a golden evaluation set
 
 Create a versioned evaluation set that is:
 
@@ -47,7 +47,7 @@ For clinical work, include domain-expert review and severity categories for erro
 
 ### Summarization
 
-Do not rely on one overlap metric. Combine automated measures with factuality, completeness, omission, contradiction, and human review.
+Do not rely on one overlap metric. Combine automated measures with factuality, completeness, omission, contradiction, and human evaluation.
 
 ### Semantic search / RAG
 
@@ -122,7 +122,7 @@ Evaluation revision:
 Task metric:
 Safety metric:
 Robustness metric:
-Human score:
+Human evaluation metric:
 P95 latency:
 Tokens/request:
 GPU memory:
@@ -146,7 +146,7 @@ The purpose of evaluation is not to produce one leaderboard number. It is to est
 |---|---|
 | Evaluation | Measuring how well a model or system performs against predefined criteria. |
 | Benchmark | A repeatable dataset and protocol used to compare systems. |
-| Golden set | A carefully reviewed evaluation set treated as a stable reference. |
+| Golden evaluation set | A carefully reviewed, versioned evaluation set treated as a controlled reference. |
 | Precision | Of the items predicted positive, the fraction that are actually positive. |
 | Recall | Of the relevant positive items, the fraction the system successfully finds. |
 | F1 | The harmonic mean of precision and recall. |
