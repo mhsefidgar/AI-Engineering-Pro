@@ -111,3 +111,26 @@ monitoring/
 ## Final success criteria
 
 The capstone is complete when the repository can reproduce the data-to-model-to-serving pipeline from versioned configuration, produce a benchmark report, expose the model through a controlled inference service, and explain known limitations and failure modes.
+
+## Terms & Phrases Explained
+
+| Term | Plain-English meaning |
+|---|---|
+| Capstone | A final project that combines the concepts learned across the preceding sections into one end-to-end system. |
+| Domain-specific | Designed for a particular field, workflow, vocabulary, or task rather than general-purpose use. |
+| Evidence-grounded QA | Question answering where the response is expected to be supported by retrieved or provided evidence. |
+| Structured information extraction | Turning unstructured text into defined fields or records, often using a schema. |
+| Architecture | The components of the system and how data flows between them. |
+| Train set | Data used to update model parameters during training. |
+| Eval set | Held-out examples used to measure model behavior during development or final evaluation. |
+| Benchmark suite | A fixed collection of tests covering quality, safety, robustness, latency, and/or cost. |
+| Model registry | A controlled system for storing and promoting versioned model or adapter artifacts. |
+| API | Application Programming Interface; a defined way for software systems to communicate with the model service. |
+| Concurrency | Multiple requests being processed at the same time. |
+| RAG | Retrieval-Augmented Generation; retrieves external information and supplies it as context to the model. |
+| Resource requirement | Hardware, memory, storage, time, or other infrastructure needed to run a workload. |
+| Risk register | A maintained list of identified risks, their impact, controls, owners, and status. |
+| Rollback | Returning production to a previously validated model or configuration. |
+| Retraining trigger | A predefined condition that starts investigation or a new model-training cycle. |
+| Versioned configuration | A saved, identifiable configuration whose exact values can be reproduced later. |
+| End-to-end | Covering the complete workflow from input/data through processing, serving, and monitoring. |
