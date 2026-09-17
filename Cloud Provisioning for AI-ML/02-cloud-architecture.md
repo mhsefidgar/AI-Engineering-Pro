@@ -11,7 +11,7 @@ DNS / Load Balancer / API Gateway
     ↓
 Kubernetes or managed compute
     ↓
-Model server / API / workers
+Inference server / API / workers
     ├── object storage
     ├── vector database / search
     ├── relational database
@@ -24,9 +24,9 @@ Identity and network controls surround every layer.
 
 ## Region and zone
 
-A region is a geographic cloud area. A zone is an isolated failure domain within a region.
+A region is a geographic cloud area. An availability zone is an isolated failure domain within a region.
 
-Use multiple zones when availability requirements justify the additional cost and complexity.
+Use multiple availability zones when availability requirements justify the additional cost and complexity.
 
 For GPU workloads, also verify that the required accelerator capacity is actually available in the selected zones.
 
@@ -50,12 +50,12 @@ GPU nodes usually do not need public IP addresses.
 
 ## Identity
 
-Prefer workload identity over long-lived cloud credentials stored in pods or VM environment variables.
+Prefer short-lived workload identity mechanisms over long-lived cloud credentials stored in pods or VM environment variables. The exact mechanism is provider-specific, such as AWS EKS Pod Identity, GKE Workload Identity Federation, or Azure Workload Identity.
 
 The application should receive only the permissions it needs:
 
 ```text
-model server → read model artifact
+inference server → read model artifact
 training job → read dataset + write checkpoint
 API → read configuration
 observability → write metrics/logs
@@ -101,7 +101,7 @@ Object storage is generally the durable source for datasets, models, and checkpo
 
 ### Compute layer
 
-Use CPU and GPU pools separated by workload class.
+Use CPU and GPU node pools separated by workload class.
 
 ### Orchestration layer
 
@@ -109,7 +109,7 @@ Kubernetes, batch systems, Ray, or managed ML platforms can schedule workloads.
 
 ### Serving layer
 
-Use a model server such as vLLM or another workload-appropriate server.
+Use an inference server such as vLLM or another workload-appropriate serving system.
 
 ### MLOps layer
 
@@ -149,7 +149,7 @@ while the underlying Terraform modules use EKS, GKE, or AKS.
 | Subnet | IP address range within a cloud network. |
 | North-south traffic | Traffic entering or leaving the platform. |
 | East-west traffic | Traffic between services or nodes inside the platform. |
-| Workload identity | Mechanism allowing workloads to obtain cloud permissions without embedded long-lived credentials. |
+| Workload identity | Short-lived identity mechanism allowing a workload to obtain cloud permissions without embedded long-lived credentials. |
 | Managed service | Cloud service where the provider operates substantial infrastructure for you. |
 | Failure domain | Set of components likely to fail together. |
 | Blast radius | Scope of systems affected by a failure or change. |
