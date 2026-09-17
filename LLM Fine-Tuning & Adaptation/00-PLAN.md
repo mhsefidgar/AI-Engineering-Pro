@@ -6,6 +6,10 @@ Build a portfolio-quality, production-oriented learning path that demonstrates t
 
 The plan deliberately treats fine-tuning as one tool in a larger adaptation decision. Every project should answer: **Why this adaptation method, why this data, how do we know it works, and how do we operate it safely?**
 
+## Terminology convention
+
+Use canonical ML/LLM terminology and define it once before using it as shorthand. Prefer **adapter** over the ambiguous spelling “adaptor” throughout this section. Use **evaluation set** or **golden evaluation set** when referring to a controlled reference set, and define the exact unit when discussing cost or success metrics.
+
 ## Phase 0 — Baseline and problem framing
 
 1. Define the task and success criteria.
@@ -117,7 +121,7 @@ Implement:
 
 - Git-based code versioning
 - Dataset versioning
-- Model/adaptor versioning
+- Model/adapter versioning
 - Experiment tracking with MLflow or Weights & Biases
 - Automated tests
 - CI pipeline
@@ -144,7 +148,7 @@ Track:
 - Data distribution drift
 - Output safety/quality signals
 - Human feedback
-- Cost per request/task
+- Unit cost per explicitly defined unit of work
 
 Create explicit thresholds and escalation procedures.
 
@@ -184,7 +188,7 @@ LoRA / QLoRA
           ↓
 Evaluation + error analysis
           ↓
-Model/adaptor registry
+Model/adapter registry
           ↓
 vLLM serving
           ↓
@@ -196,34 +200,6 @@ Controlled retraining
 ```
 
 The final report must explain not only the best-performing configuration, but also its failure modes, resource requirements, and operational boundaries.
-
-## Suggested folder structure
-
-```text
-LLM Fine-Tuning & Adaptation/
-├── 00-PLAN.md
-├── 01-baseline-and-adaptation-decision.md
-├── 02-data-engineering-and-privacy.md
-├── 03-sft-fundamentals.md
-├── 04-lora-qlora.md
-├── 05-evaluation-and-benchmarking.md
-├── 06-preference-optimization.md
-├── 07-inference-and-serving.md
-├── 08-mlops-and-monitoring.md
-├── 09-medical-ai-responsible-engineering.md
-├── 10-bottlenecks-and-troubleshooting.md
-├── 11-capstone.md
-├── references.md
-└── labs/
-    ├── 01_data_quality/
-    ├── 02_sft/
-    ├── 03_lora/
-    ├── 04_qlora/
-    ├── 05_evaluation/
-    ├── 06_preference_optimization/
-    ├── 07_vllm/
-    └── 08_mlops/
-```
 
 ## Definition of done
 
@@ -255,6 +231,7 @@ A candidate completing this path should be able to explain and demonstrate:
 | DPO | Direct Preference Optimization; trains from preferred vs. rejected responses to optimize behavior. |
 | GRPO | Group Relative Policy Optimization; a policy-optimization approach that compares candidate outputs using a reward signal. |
 | RLHF | Reinforcement Learning from Human Feedback; a family of methods using human preferences to guide model behavior. |
+| Adapter | A parameter-efficient set of learned weights applied to a compatible base model. |
 | Latency | How long the system takes to respond to a request or produce tokens. |
 | Throughput | How much work the system can process over a unit of time, such as tokens or requests per second. |
 | Context length | The amount of input/output token context a model or serving system can handle for a request. |
@@ -265,5 +242,3 @@ A candidate completing this path should be able to explain and demonstrate:
 | CI/CD | Automated processes for integrating code, testing it, building artifacts, and delivering deployments. |
 | PHI | Protected Health Information under applicable U.S. HIPAA rules. |
 | Human oversight | Defined points where qualified people review, approve, override, or escalate model behavior. |
-
-> Every phase below also has its own glossary so that unfamiliar terminology is explained immediately after the technical material.
