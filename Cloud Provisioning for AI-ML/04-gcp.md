@@ -1,20 +1,20 @@
 # GCP Provisioning for AI/ML
 
-GCP building blocks commonly used for AI/ML include GKE, Compute Engine GPU VMs, Cloud Storage, Artifact Registry, IAM/Workload Identity, Cloud Monitoring, and managed networking.
+GCP building blocks commonly used for AI/ML include Google Kubernetes Engine (GKE), Compute Engine GPU VMs, Cloud Storage, Artifact Registry, IAM, Workload Identity Federation for GKE, Cloud Monitoring, and managed networking.
 
 ## Reference architecture
 
 ```text
 VPC
 ├── private GKE nodes
-│   ├── CPU pool
-│   └── GPU pool
+│   ├── CPU node pool
+│   └── GPU node pool
 ├── load balancing
 └── private service connectivity
 
 Cloud Storage → datasets / models / checkpoints
 Artifact Registry → images
-IAM + Workload Identity → permissions
+IAM + Workload Identity Federation → permissions
 Cloud Monitoring → telemetry
 ```
 
@@ -22,7 +22,7 @@ Cloud Monitoring → telemetry
 
 GPU workloads should request the GPU resource explicitly and be scheduled onto compatible node pools.
 
-Keep accelerator pools separated when different GPU types or workload priorities exist.
+Keep accelerator node pools separated when different GPU types or workload priorities exist.
 
 ## Terraform categories
 
@@ -37,7 +37,7 @@ node pools
 GPU nodes
 Cloud Storage buckets
 Artifact Registry
-service accounts / Workload Identity
+service accounts / Workload Identity Federation
 monitoring dependencies
 ```
 
@@ -49,11 +49,11 @@ Cloud Storage should usually be the durable artifact/data layer. Local disks can
 
 ## GCP-specific senior concerns
 
-- GPU quotas and regional/zone availability
+- Cloud quotas and regional/zone accelerator availability
 - GKE GPU node pools
-- Workload Identity
+- Workload Identity Federation for GKE
 - Autopilot vs Standard suitability for the workload
-- persistent disk vs local/ephemeral storage
+- Persistent Disk vs Local SSD vs other ephemeral storage
 - Spot VM interruption
 - network egress
 - private GKE design
@@ -71,10 +71,10 @@ Cloud Storage should usually be the durable artifact/data layer. Local disks can
 | Term | Meaning |
 |---|---|
 | GKE | Google Kubernetes Engine. |
-| Compute Engine | GCP virtual machine compute service. |
-| Cloud Storage | GCP object storage. |
-| Artifact Registry | GCP service for container/package artifacts. |
-| Workload Identity | GCP mechanism for securely connecting Kubernetes workloads to cloud identities. |
-| Spot VM | Interruptible VM capacity designed for lower-cost workloads. |
-| Quota | Cloud-enforced resource allocation limit. |
+| Compute Engine | Google Cloud virtual machine compute service. |
+| Cloud Storage | Google Cloud object storage. |
+| Artifact Registry | Google Cloud service for container and package artifacts. |
+| Workload Identity Federation for GKE | Google Cloud mechanism for securely associating Kubernetes workloads with IAM identities without long-lived service-account keys. |
+| Spot VM | Interruptible Compute Engine VM capacity designed for lower-cost workloads. |
+| Quota | Cloud-enforced limit on the amount of a resource or service that can be consumed. |
 | Standard GKE | GKE mode providing direct control over nodes and node pools. |
