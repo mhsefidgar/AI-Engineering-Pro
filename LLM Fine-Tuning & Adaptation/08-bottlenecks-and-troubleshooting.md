@@ -162,3 +162,29 @@ Add production-like slices and domain-expert review.
 [ ] Add regression test
 [ ] Document corrective action
 ```
+
+## Terms & Phrases Explained
+
+| Term | Plain-English meaning |
+|---|---|
+| GPU OOM | GPU out-of-memory: the workload requires more GPU memory than is available. |
+| Micro-batch | The number of examples processed by one device before gradients are accumulated or an update occurs. |
+| Gradient accumulation | Combining gradients from several micro-batches before an optimizer update. |
+| Activation checkpointing | Trading extra computation for lower memory by recomputing saved intermediate activations. |
+| Tokenization | Converting text into the token IDs consumed by a language model. |
+| Padding | Adding placeholder tokens so examples in a batch have compatible lengths. |
+| Sequence packing | Combining multiple shorter training sequences into fuller sequences to reduce wasted padding. |
+| Overfitting | Learning training patterns too specifically and losing performance on unseen data. |
+| Learning rate | A training hyperparameter controlling the size of parameter updates. |
+| Catastrophic forgetting | Loss of previously useful capabilities after narrow adaptation. |
+| Factuality | Whether generated statements are supported by the available information. |
+| Hallucination | Unsupported or fabricated generated information. |
+| Source attribution | Identifying the source of evidence used to support an output. |
+| Output validation | Checking generated output against rules, schemas, constraints, or other correctness checks. |
+| RAG | Retrieval-Augmented Generation; retrieves external information to provide context to the model. |
+| Data leakage | Unintended information flow from held-out evaluation data into training or model selection. |
+| Quantization regression | A quality or behavior degradation caused by changing the model's numerical precision. |
+| Serving mismatch | A difference between training/evaluation and production inference configuration that changes model behavior. |
+| Root cause | The underlying reason a failure occurred, rather than only its visible symptom. |
+| Golden case | A fixed, trusted test example used to quickly verify expected model behavior. |
+| Cost per successful task | Operational cost measured against successfully completed tasks rather than raw tokens alone. |
