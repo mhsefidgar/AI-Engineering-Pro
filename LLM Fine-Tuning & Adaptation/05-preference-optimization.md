@@ -64,3 +64,24 @@ Safety + regression evaluation
 - Unintended style changes
 
 The evaluation suite must contain independent quality and safety metrics so that preference optimization cannot define its own success criteria.
+
+## Terms & Phrases Explained
+
+| Term | Plain-English meaning |
+|---|---|
+| Preference optimization | Training that makes a model favor outputs judged better according to preferences or rewards. |
+| Preference pair | One prompt with a preferred (`chosen`) response and a less-preferred (`rejected`) response. |
+| DPO | Direct Preference Optimization; a method for learning from preference pairs without the full classic RLHF loop. |
+| GRPO | Group Relative Policy Optimization; uses relative rewards among groups of candidate outputs. |
+| RLHF | Reinforcement Learning from Human Feedback; uses human preference information to guide model behavior. |
+| Reward | A numerical signal representing how desirable an output is according to a defined objective. |
+| Reward function | The procedure that converts an output into a reward value. |
+| Reward model | A model trained to predict human preference or quality and provide a reward signal. |
+| Policy | In reinforcement learning, the model's behavior rule for generating actions; here, token/output generation. |
+| Policy optimization | Updating the model so its generated outputs receive higher rewards under the chosen objective. |
+| Reward hacking | Finding unintended ways to increase the measured reward without achieving the real goal. |
+| Preference-label noise | Inconsistency or error in human preference judgments. |
+| Mode collapse | A reduction in output diversity where the model produces overly similar responses. |
+| Over-optimization | Improving the training objective while degrading broader quality, safety, or generalization. |
+| Behavioral gap | A specific, measurable behavior that the current model fails to achieve reliably. |
+| Anti-hacking check | An independent test designed to detect whether a reward can be increased through undesirable shortcuts. |
