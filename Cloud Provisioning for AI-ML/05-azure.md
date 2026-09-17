@@ -1,6 +1,6 @@
 # Azure Provisioning for AI/ML
 
-Azure building blocks commonly used for AI/ML include AKS, GPU VM scale sets/node pools, Blob Storage, Azure Container Registry, Entra ID/Managed Identity, Azure Monitor, VNets, and private endpoints.
+Azure building blocks commonly used for AI/ML include Azure Kubernetes Service (AKS), GPU VM scale sets/node pools, Azure Blob Storage, Azure Container Registry (ACR), Microsoft Entra ID, Azure Managed Identity, Azure Monitor, VNets, and private endpoints.
 
 ## Reference architecture
 
@@ -44,12 +44,12 @@ private endpoints
 
 ## Azure-specific senior concerns
 
-- GPU SKU quota and regional availability
+- GPU VM SKU quotas and regional availability
 - AKS node-pool design
 - Managed Identity scope
 - private cluster/private endpoints
 - Blob access patterns
-- managed disk vs shared storage
+- Managed Disks vs Azure Files or other shared storage
 - Spot VM interruption
 - Azure Monitor cost
 - GPU driver/CUDA/container compatibility
@@ -68,7 +68,8 @@ private endpoints
 | VNet | Azure virtual network. |
 | Blob Storage | Azure object storage. |
 | ACR | Azure Container Registry. |
-| Entra ID | Microsoft's cloud identity and access platform. |
+| Microsoft Entra ID | Microsoft's cloud identity and access platform. |
 | Managed Identity | Azure identity mechanism that avoids storing application credentials. |
 | VM scale set | Group of Azure VMs managed as a scalable unit. |
 | Spot VM | Interruptible Azure VM capacity for suitable workloads. |
+| VM SKU quota | Azure limit on the amount of a VM family or SKU that can be allocated in a subscription/region. |
