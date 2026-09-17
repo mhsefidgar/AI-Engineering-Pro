@@ -14,14 +14,14 @@ Choose one:
 - Terminology normalization
 - Evidence-grounded question answering
 
-Start with one task; add a second only after the first has a stable evaluation suite.
+Start with one task; add a second only after the first has a fixed, versioned evaluation suite.
 
 ## Architecture
 
 ```text
-                 ┌─────────────────────┐
+                 ┌──────────────────────┐
                  │ Synthetic / safe data│
-                 └──────────┬──────────┘
+                 └──────────┬───────────┘
                             ↓
                     Data validation
                             ↓
@@ -92,7 +92,7 @@ serving/
 monitoring/
 ```
 
-## Hiring-signal questions the project should answer
+## Engineering-review questions the project should answer
 
 - Why did you fine-tune instead of using RAG?
 - Why LoRA/QLoRA instead of full fine-tuning?
