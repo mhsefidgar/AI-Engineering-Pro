@@ -41,7 +41,7 @@ A domain model is not automatically better if a smaller model plus retrieval or 
 | Need | Candidate approach | Main risk |
 |---|---|---|
 | Current external knowledge | RAG | Retrieval failure |
-| Stable output format | Structured prompting / constrained decoding / SFT | Brittle formatting |
+| Structured output requirements | Structured prompting / constrained decoding / SFT | Schema or formatting failures |
 | Domain task behavior | SFT + LoRA | Overfitting |
 | Domain vocabulary/knowledge in weights | Continued pretraining | Forgetting / contamination |
 | Preference alignment | DPO / related methods | Preference-data quality |
